@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 class="display-5" style="text-align: center;">Add New Customer</h1>
+        <h1 class="display-5" style="text-align: center;">Edit Customer Information</h1>
         <hr class="my-4">
         <h4 class="display-7" style="text-align: center;">Please Fill Out the Details Below</h4>
         <hr class="my-4">
