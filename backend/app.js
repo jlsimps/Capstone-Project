@@ -33,10 +33,24 @@ app.get('/', (req, res) => {
 
 })
 
-app.get('/recentOrders' , (req, res) =>{
-    connection.query(`SELECT * FROM recent_orders LIMIT 10`, function(err, result){
+app.get('/searchOrder/:lastname/:zip', (req, res) => {
+    connection.query(`SELECT * FROM recent_orders WHERE customer_last_name = '${req.params.lastname}' AND customer_zipcode = ${req.params.zip}`, function(err, result) {
         if (err) throw err;
         res.json(result);
+    })
+})
+
+app.get('/getOrders' , (req, res) =>{
+    connection.query(`SELECT * FROM recent_orders ORDER BY completion_date DESC`, function(err, result){
+        if (err) throw err;
+        res.json(result);
+    })
+})
+
+app.get('/getOrderDetails/:orderid', (req, res) => {
+    connection.query(`SELECT * FROM order_details WHERE work_order_id = ${req.params.orderid}`, function(err, result) {
+        if (err) throw err;
+        res.json(result)
     })
 })
 
