@@ -47,6 +47,27 @@ app.get('/getOrders' , (req, res) =>{
     })
 })
 
+app.get('/getCustomers', (req, res) => {
+    connection.query(`SELECT * FROM customer ORDER BY customer_last_name ASC`, function(err, result) {
+        if (err) throw err;
+        res.json(result);
+    })
+})
+
+app.get('/searchCustomer/:phone', (req, res) => {
+    connection.query(`SELECT * FROM customer WHERE customer_phone = '${req.params.phone}'`, function(err, result) {
+        if (err) throw err;
+        res.json(result)
+    })
+})
+
+app.get('/getCustomerById/:id', (req, res) => {
+    connection.query(`SELECT * FROM customer WHERE customer_id = ${req.params.id}`, function(err, result) {
+        if (err) throw err;
+        res.json(result)
+    })
+})
+
 app.get('/getOrderDetails/:orderid', (req, res) => {
     connection.query(`SELECT * FROM order_details WHERE work_order_id = ${req.params.orderid}`, function(err, result) {
         if (err) throw err;
@@ -56,9 +77,19 @@ app.get('/getOrderDetails/:orderid', (req, res) => {
 
 app.post('/createCustomer', (req, res) => {
     const customer = req.body
-    const queryString = `INSERT INTO customer VALUES (27, 1, '${customer.firstName}', '${customer.lastName}', '${customer.state}', '${customer.city}', '${customer.zip}', '${customer.address1}', '${customer.address2}', '${customer.phone1}', '${customer.phone2}', '${customer.email}', 'facebook', '${customer.dlnumber}', '${customer.dlstate}')`
+    const queryString = `INSERT INTO customer (customer_status_id, customer_social_media, customer_first_name, customer_last_name, customer_state_name, customer_city_name, customer_zipcode, customer_address, customer_address_2, customer_phone, customer_phone_2, customer_email, customer_driver_license_num, customer_driver_license_state) VALUES (1, '', '${customer.firstName}', '${customer.lastName}', '${customer.state}', '${customer.city}', '${customer.zip}', '${customer.address1}', '${customer.address2}', '${customer.phone1}', '${customer.phone2}', '${customer.email}', '${customer.dlnumber}', '${customer.dlstate}')`
     connection.query(queryString, function(err, result) {
             if (err) throw err;
             res.json(result);
         })
+})
+
+app.put('/UpdateCustomer/:id', (req, res) => {
+    const customer = req.body
+    const queryString = `UPDATE customer SET customer_first_name = '${customer.customer_first_name}', customer_last_name = '${customer.customer_last_name}', customer_address = '${customer.customer_address}', customer_address_2 = '${customer.customer_address_2}', customer_city_name = '${customer.customer_city_name}', customer_state_name = '${customer.customer_state_name}', customer_zipcode = '${customer.customer_zipcode}', customer_phone = '${customer.customer_phone}', customer_phone_2 = '${customer.customer_phone_2}', customer_email = '${customer.customer_email}', customer_driver_license_num = '${customer.customer_driver_license_num}', customer_driver_license_state = '${customer.customer_driver_license_state}' WHERE customer_id = ${req.params.id}`
+    connection.query(queryString, function(err, result) {
+        if (err) throw err;
+        res.json(result);
+    })
+
 })

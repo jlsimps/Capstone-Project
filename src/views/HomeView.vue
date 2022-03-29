@@ -2,13 +2,12 @@
   <div class="home">
     <h1 class="display-5" style="text-align: center;">Check Warranty Status</h1>
     <hr class="my-4">
-    <h4 class="display-7" style="text-align: center;">Enter Details Below</h4>
+    <h4 class="display-7" style="text-align: center;">Enter Details or Click View All</h4>
     <hr class="my-4">
     <div class="card">
       <div class="card-header">
         <div class="container">
           <div class="row">
-            <!-- <form @submit.prevent="handleSearch"> -->
               <div class="col-4 my-auto">
                 <label class="mx-3">Last Name</label><input type="text" class="form-control" v-model="lName" required>
               </div>
@@ -21,7 +20,6 @@
               <div class="col my-auto">
                 <button @click.prevent="handleViewAll" class="btn btn-secondary">View All Orders</button>
               </div>
-            <!-- </form> -->
           </div>
         </div>
       </div>
