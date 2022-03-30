@@ -81,8 +81,7 @@ export default {
       }).catch(error => {
         console.log(error)
       })
-      this.lName = ''
-      this.zip = ''
+      this.phoneSearch = ''
     }
   }
 }

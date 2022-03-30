@@ -132,7 +132,6 @@ export default {
 
     axios.get(apiURL).then((res) => {
       this.customer = res.data[0]
-      console.log(this.customer)
     }).catch(error => {
       console.log(error)
     })
