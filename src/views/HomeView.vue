@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="card-body">
-        <table class="table">
+        <table class="table table-hover">
           <thead>
             <tr>
               <th>Order Number</th>
@@ -189,7 +189,7 @@ export default {
 <style scoped>
 #overlay {
   position: fixed;
-  top: 10%;
+  top: 9%;
   bottom: 0;
   left: 0;
   right: 0;
