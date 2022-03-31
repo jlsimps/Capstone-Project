@@ -93,3 +93,48 @@ app.put('/UpdateCustomer/:id', (req, res) => {
     })
 
 })
+
+app.get('/getMakes', (req, res) => {
+    connection.query('SELECT * FROM make', function(err, result) {
+        if (err) throw err;
+        res.json(result)
+    })
+})
+
+app.get('/getModels/:id', (req, res) => {
+    const queryString = `SELECT * FROM model WHERE make_id = ${req.params.id}`
+    connection.query(queryString, function(err, result) {
+        if (err) throw err;
+        res.json(result)
+    })
+})
+
+app.get('/getColors', (req, res) => {
+    connection.query('SELECT * FROM color', function(err, result) {
+        if (err) throw err;
+        res.json(result)
+    })
+})
+
+app.get('/getStates', (req, res) => {
+    connection.query('SELECT * FROM vehicle_license_plate_state', function(err, result) {
+        if (err) throw err;
+        res.json(result)
+    })
+})
+
+app.post('/createVehicle', (req, res) => {
+    const vehicle = req.body
+    const queryString = `INSERT INTO vehicle (customer_id, model_id, vehicle_status_id, color_id, vehicle_license_plate_state_id, vehicle_vin_number, vehicle_license_plate_num, vehicle_year) VALUES (${vehicle.customer_id}, ${vehicle.model_id}, ${vehicle.vehicle_status_id}, ${vehicle.color_id}, ${vehicle.vehicle_license_plate_state_id}, '${vehicle.vehicle_vin_number}', '${vehicle.vehicle_license_plate_num}', ${vehicle.vehicle_year})`
+    connection.query(queryString, function(err, result) {
+        if (err) throw err
+        res.send('Success')
+    })
+})
+
+app.get('/getVehicles', (req, res) => {
+    connection.query('SELECT * FROM vehicles_with_details', function(err, result) {
+        if (err) throw err
+        res.json(result)
+    })
+})

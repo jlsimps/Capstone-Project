@@ -2,7 +2,7 @@
     <b-container>
       <b-row>
         <nav class="navbar navbar-expand navbar-light px-4 fixed-top" style="justify-content:space-between;padding-left:5px;">
-          <a href="/"><img src="../src/assets/logo2.png" style="width:30%;height:auto;"></a>
+          <a href="/"><img src="../src/assets/logo2.png" style="width:270px;height:auto;"></a>
           <ul class="nav navbar-nav" style="flex-wrap: nowrap">
 
             <li class="nav-item dropdown">

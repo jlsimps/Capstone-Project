@@ -51,6 +51,7 @@
       </tbody>
         </table>
       </div>
+      <teleport to="body">
       <div id="overlay" v-if="showDetails">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -96,6 +97,7 @@
           </div>
         </div>
       </div>
+      </teleport>
     </div>
     <!-- <table class="table">
       <thead>
