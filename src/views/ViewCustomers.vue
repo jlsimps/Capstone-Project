@@ -9,7 +9,7 @@
         <div class="container">
           <div class="row d-flex">
               <div class="col-4 my-auto">
-                <label class="mx-3">Phone Number</label><input type="text" v-model="phoneSearch" required>
+                <label class="mx-3">Phone Number:</label><input type="text" v-model="phoneSearch" required>
               </div>
               <div class="col-2 my-auto d-flex justify-content-start">
                 <button @click.prevent="handleSearch" class="btn btn-secondary">Search</button>
@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="card-body">
-        <table class="table">
+        <table class="table table-hover">
           <thead>
             <tr>
               <th>Last Name</th>

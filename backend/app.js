@@ -86,6 +86,7 @@ app.post('/createCustomer', (req, res) => {
 
 app.put('/UpdateCustomer/:id', (req, res) => {
     const customer = req.body
+    console.log(customer)
     const queryString = `UPDATE customer SET customer_first_name = '${customer.customer_first_name}', customer_last_name = '${customer.customer_last_name}', customer_address = '${customer.customer_address}', customer_address_2 = '${customer.customer_address_2}', customer_city_name = '${customer.customer_city_name}', customer_state_name = '${customer.customer_state_name}', customer_zipcode = '${customer.customer_zipcode}', customer_phone = '${customer.customer_phone}', customer_phone_2 = '${customer.customer_phone_2}', customer_email = '${customer.customer_email}', customer_driver_license_num = '${customer.customer_driver_license_num}', customer_driver_license_state = '${customer.customer_driver_license_state}' WHERE customer_id = ${req.params.id}`
     connection.query(queryString, function(err, result) {
         if (err) throw err;
@@ -136,5 +137,36 @@ app.get('/getVehicles', (req, res) => {
     connection.query('SELECT * FROM vehicles_with_details', function(err, result) {
         if (err) throw err
         res.json(result)
+    })
+})
+
+app.get('/getVehicleByVin/:vin', (req, res) => {
+    connection.query(`SELECT * FROM vehicles_with_details WHERE vehicle_vin_number = '${req.params.vin}'`, function(err, result) {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.get('/getVehicleByPhone/:phone', (req, res) => {
+    connection.query(`SELECT * FROM vehicles_with_details WHERE customer_phone = '${req.params.phone}'`, function(err, result) {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.get('/getVehicleById/:id', (req, res) => {
+    const queryString = `SELECT * FROM vehicles_with_details WHERE vehicle_id = ${req.params.id}`
+    connection.query(queryString, function(err, result) {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.put('/updateVehicle/:id', (req, res) => {
+    const vehicle = req.body
+    const queryString = `UPDATE vehicle set vehicle_vin_number = '${vehicle.vehicle_vin_number}', vehicle_year = ${vehicle.vehicle_year}, color_id = ${vehicle.color_id}, vehicle_license_plate_num = '${vehicle.vehicle_license_plate_num}', vehicle_license_plate_state_id = ${vehicle.vehicle_license_plate_state_id} WHERE vehicle_id = ${vehicle.vehicle_id}`
+    connection.query(queryString, function(err, result) {
+        if (err) throw err
+        res.send('Success')
     })
 })

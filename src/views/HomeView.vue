@@ -99,28 +99,6 @@
       </div>
       </teleport>
     </div>
-    <!-- <table class="table">
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Vehicle Year</th>
-          <th>Vehicle Model</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="order in orders" :key="order.work_order_id">
-          <td>{{ order.work_order_id }}</td>
-          <td>{{ order.customer_first_name }}</td>
-          <td>{{ order.customer_last_name }}</td>
-          <td>{{ order.vehicle_year }}</td>
-          <td>{{ order.model_name }}</td>
-          <td>{{ formatDate(order.completion_date) }}</td>
-        </tr>
-      </tbody>
-    </table> -->
   </div>
 </template>
 
