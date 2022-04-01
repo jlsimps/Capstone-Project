@@ -36,6 +36,11 @@ const routes = [
     path: '/EditVehicle',
     name: 'EditVehicle',
     component: () => import('../views/EditVehicle.vue')
+  },
+  {
+    path: '/AddWorkOrder',
+    name: 'AddWorkOrder',
+    component: () => import('../views/AddWorkOrder.vue')
   }
 ]
 
