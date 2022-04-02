@@ -64,7 +64,7 @@
             <div class="modal-body p-4">
               <div class="row my-4">
                 <div class="col mx-auto">
-                  <strong>Order Date:</strong> {{ formatDate(orderDate) }}
+                  <strong>Completion Date:</strong> {{ formatDate(orderDate) }}
                 </div>
                 <div class="col mx-auto">
                   <strong>Mileage at Time of Service:</strong> {{ orderMileage }}

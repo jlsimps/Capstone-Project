@@ -170,3 +170,58 @@ app.put('/updateVehicle/:id', (req, res) => {
         res.send('Success')
     })
 })
+
+app.get('/getServices', (req, res) => {
+    connection.query('SELECT * FROM service', function(err, result) {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.get('/getWarranties', (req, res) => {
+    connection.query('SELECT * FROM warranty_option', function(err, result) {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.get('/getServiceId/:serviceName', (req, res) => {
+    const queryString = `SELECT service_id FROM service WHERE service_type = '${req.params.serviceName}'`
+    connection.query(queryString, function(err, result) {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.get('/getWarrantyId/:warrantyName', (req, res) => {
+    const queryString = `SELECT warranty_option_id FROM warranty_option WHERE warranty_name = '${req.params.warrantyName}'`
+    connection.query(queryString, function(err, result) {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.post('/createOrder', (req, res) => {
+    const order = req.body
+    const queryString = `INSERT INTO work_order (vehicle_id, work_order_status_id, current_mileage, completion_date) VALUES (${order.vehicle_id}, 1, ${order.mileage}, '${order.completion_date}')`
+    connection.query(queryString, function(err, result) {
+        if (err) throw err
+    })
+    connection.query('SELECT work_order_id FROM work_order ORDER BY work_order_id DESC LIMIT 1', function(err, result) {
+        if (err) throw err
+        res.json(result)
+    })
+
+})
+
+app.post('/addWorkOrderLines', (req,res) => {
+    const services = req.body
+    console.log(services)
+    for (const service of services) {
+        queryString = `INSERT INTO work_order_line (work_order_line_status_id, service_id, work_order_id, warranty_option_id) VALUES (1, ${service.service_type.service_id}, ${service.order_id}, ${service.warranty_name.warranty_option_id})`
+        connection.query(queryString, function(err, result) {
+            if (err) throw err
+        })
+    }
+    res.send('success')
+})
