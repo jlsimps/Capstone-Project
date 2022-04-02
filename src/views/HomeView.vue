@@ -46,7 +46,8 @@
               <td>{{ order.vehicle_year }}</td>
               <td>{{ order.model_name }}</td>
               <td>{{ formatDate(order.completion_date) }}</td>
-              <td><button class="btn btn-secondary" @click="showOrderInfo(order.work_order_id, order.current_mileage)">View Details</button></td>
+              <!-- <td><button class="btn btn-secondary" @click="showOrderInfo(order.work_order_id, order.current_mileage)">View Details</button></td> -->
+              <td><a href="" @click.prevent><img src="../../src/assets/view2.png" @click="showOrderInfo(order.work_order_id, order.current_mileage)" style="width:25px;height:25px" /></a></td>
           </tr>
       </tbody>
         </table>

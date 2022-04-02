@@ -225,3 +225,22 @@ app.post('/addWorkOrderLines', (req,res) => {
     }
     res.send('success')
 })
+
+app.put('/updateWorkOrder', (req,res) => {
+    const orderId = req.body.work_order_id
+    const queryString = `UPDATE work_order SET current_mileage = ${req.body.current_mileage}, completion_date = '${req.body.completion_date}' WHERE work_order_id = ${orderId}`
+    console.log(queryString)
+    // connection.query(`UPDATE work_order SET current_mileage = ${req.body.current_mileage} SET completion_date = '${req.body.completion_date}' WHERE work_order_id = ${orderId}`)
+    // console.log(orderDetails)
+    for (service of req.body.deletedServices) {
+        const queryString2 = `DELETE FROM work_order_line WHERE work_order_line_id = ${service}`
+        console.log(queryString2)
+    }
+    for (service of req.body.addedServices) {
+        if (!service.isDeleted) {
+            const queryString3 = `INSERT INTO work_order_line (work_order_line_status_id, service_id, work_order_id, warranty_option_id) VALUES (1, ${service.service_id}, ${orderId}, ${service.warranty_option_id})`
+            console.log(queryString3)
+        }
+    }
+    res.send('success')
+})

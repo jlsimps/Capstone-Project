@@ -5,6 +5,10 @@
           <a href="/"><img src="../src/assets/logo2.png" style="width:270px;height:auto;"></a>
           <ul class="nav navbar-nav" style="flex-wrap: nowrap">
 
+            <li class="nav-item active">
+              <router-link class="nav-link" to="/">Home</router-link>
+            </li>
+
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Customers
@@ -59,7 +63,8 @@
         <router-view></router-view>
       </b-row>
       <div class="footer navbar-fixed-bottom">
-        <h5>test</h5>
+        <img src="../src/assets/teamlogo.png" style="width:50px;height:auto;">
+        <span class="logoText text-muted">© Copyright Radioactive Tech Solutions</span>
       </div>
     </b-container>
 </template>
@@ -67,7 +72,7 @@
 <style>
   .navbar {
     background-color: #b5c7da;
-    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: Tahoma, sans-serif;
     font-weight:500;
     color: rgb(255, 255, 255);
     border-bottom: 5px solid #383742;
@@ -113,6 +118,13 @@
   .dropdown-menu > a:hover {
     background-color: #383742;
     background-image: none;
-}
+  }
 
+  .dropdown-item {
+    font-family: Arial, sans-serif;
+  }
+
+  /* .logoText{
+    text-muted;
+  } */
 </style>

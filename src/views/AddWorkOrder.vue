@@ -48,9 +48,6 @@
                 </div>
             </div>
         </div>
-            <!-- <div class="card-header">
-                <h5>Complete Order Details</h5>
-            </div> -->
         <div v-if="vehicleSelected" class="card mt-5" id="details">
             <div class="card-body">
                 <div>
@@ -284,26 +281,13 @@ export default {
           service.order_id = orderId
         }
         axios.post('http://localhost:3000/addWorkOrderLines', this.servicesAdded).then((res) => {
-        // location.reload()
+          location.reload()
         }).catch(error => {
           console.log(error)
         })
       }).catch(error => {
         console.log(error)
       })
-    //   for (const service of servicesWithIds) {
-    //     for (const [k, v] of Object.entries(service)) {
-    //       if (k === 'service_type') {
-    //         axios.get(`http://localhost:3000/getServiceId/${v}`).then((res) => {
-    //           service.service_id = res.data[0].service_id
-    //         })
-    //       } else {
-    //         axios.get(`http://localhost:3000/getWarrantyId/${v}`).then((res) => {
-    //           service.warranty_option_id = res.data[0].warranty_option_id
-    //         })
-    //       }
-    //     }
-    //   }
     },
     addService () {
       this.serviceModal = true
