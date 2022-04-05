@@ -46,6 +46,11 @@ const routes = [
     path: '/ViewWorkOrders',
     name: 'ViewWorkOrders',
     component: () => import('../views/ViewWorkOrders.vue')
+  },
+  {
+    path: '/ManageServices',
+    name: 'ManageServices',
+    component: () => import('../views/ManageServices.vue')
   }
 ]
 

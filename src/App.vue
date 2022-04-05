@@ -47,9 +47,9 @@
                 System Services
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <router-link class="dropdown-item" to="/AddWorkOrder">Manage Services Offered</router-link>
+                <router-link class="dropdown-item" to="/ManageServices">Manage Services Offered</router-link>
                 <div class="dropdown-divider"></div>
-                <router-link class="dropdown-item" to="/ViewWorkOrders">Manage Warranties</router-link>
+                <router-link class="dropdown-item" to="/ManageVehicles">Manage Vehicles Serviced</router-link>
                 <div class="dropdown-divider"></div>
                 <router-link class="dropdown-item" to="/ViewWorkOrders">Manage Vehicles Serviced</router-link>
               </div>
@@ -59,7 +59,7 @@
         </nav>
       </b-row>
 
-      <b-row class="mt-5 text-center body" style="padding-top:8%">
+      <b-row class="mt-3 text-center body" style="padding-top:8%">
         <router-view></router-view>
       </b-row>
       <div class="footer navbar-fixed-bottom">

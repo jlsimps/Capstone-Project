@@ -27,19 +27,17 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th>Order Number</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Zip Code</th>
               <th>Vehicle Year</th>
               <th>Vehicle Model</th>
-              <th>Service Date</th>
+              <th>Pickup Date</th>
               <th>View Details</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="order in orders" :key="order.work_order_id">
-              <td>{{ order.work_order_id }}</td>
               <td>{{ order.customer_first_name }}</td>
               <td>{{ order.customer_last_name }}</td>
               <td>{{ order.customer_zipcode }}</td>
@@ -52,9 +50,9 @@
       </tbody>
         </table>
       </div>
-      <teleport to="body">
+      <!-- <teleport to="body"> -->
       <div id="overlay" v-if="showDetails">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Service Order Details</h5>
@@ -72,12 +70,11 @@
                 </div>
               </div>
               <div class="row">
-                <table class="table">
+                <table class="table text-center">
                   <thead>
                     <tr>
                       <th>Service Type</th>
-                      <th>Months Covered</th>
-                      <th>Miles Covered</th>
+                      <th>Warraty Type</th>
                       <th>Expiration Date</th>
                       <th>Expiration Mileage</th>
                     </tr>
@@ -85,8 +82,7 @@
                   <tbody>
                     <tr v-for="detail in orderDetails" :key="detail.work_order_id">
                       <td>{{ detail.service_type }}</td>
-                      <td>{{ detail.warranty_option_months }}</td>
-                      <td>{{ detail.warranty_option_mileage }}</td>
+                      <td>{{ detail.warranty_name }}</td>
                       <td v-if="today<detail.work_order_expiration_date" style="color:green">{{ formatDate(detail.work_order_expiration_date) }}</td>
                       <td v-if="today>detail.work_order_expiration_date" style="color:red">{{ formatDate(detail.work_order_expiration_date) }}</td>
                       <td>{{ detail.work_order_expiration_mileage }}</td>
@@ -98,7 +94,7 @@
           </div>
         </div>
       </div>
-      </teleport>
+      <!-- </teleport> -->
     </div>
   </div>
 </template>
@@ -170,7 +166,7 @@ export default {
 <style scoped>
 #overlay {
   position: fixed;
-  top: 9%;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;

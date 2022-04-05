@@ -58,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-header">
+                <div class="card-footer">
                     <h5>Contact Info</h5>
                 </div>
                 <div class="card-body">
@@ -102,11 +102,13 @@
                             </select>
                         </div>
                     </div>
-                    <div class="card-header">
+                    <!-- <div class="card-header">
                         <div class="row justify-content-center mx-5">
-                            <button class="btn btn-secondary my-3">Submit</button>
                         </div>
-                    </div>
+                    </div> -->
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-secondary my-3">Submit</button>
                 </div>
             </form>
         </div>

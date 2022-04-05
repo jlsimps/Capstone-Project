@@ -273,7 +273,7 @@ export default {
       const order = {
         vehicle_id: this.vehicleId,
         mileage: this.mileage,
-        completion_date: this.pickupDate
+        pickup_date: this.pickupDate
       }
       axios.post('http://localhost:3000/createOrder', order).then((res) => {
         const orderId = res.data[0].work_order_id

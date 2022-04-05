@@ -41,7 +41,7 @@ app.get('/searchOrder/:lastname/:zip', (req, res) => {
 })
 
 app.get('/getOrders' , (req, res) =>{
-    connection.query(`SELECT * FROM recent_orders ORDER BY completion_date DESC`, function(err, result){
+    connection.query(`SELECT * FROM recent_orders ORDER BY pickup_date DESC`, function(err, result){
         if (err) throw err;
         res.json(result);
     })
@@ -75,9 +75,16 @@ app.get('/getOrderDetails/:orderid', (req, res) => {
     })
 })
 
+app.get('/getAllOrderDetails', (req, res) => {
+    connection.query('SELECT * FROM order_details', function(err, result) {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
 app.post('/createCustomer', (req, res) => {
     const customer = req.body
-    const queryString = `INSERT INTO customer (customer_status_id, customer_social_media, customer_first_name, customer_last_name, customer_state_name, customer_city_name, customer_zipcode, customer_address, customer_address_2, customer_phone, customer_phone_2, customer_email, customer_driver_license_num, customer_driver_license_state) VALUES (1, '', '${customer.firstName}', '${customer.lastName}', '${customer.state}', '${customer.city}', '${customer.zip}', '${customer.address1}', '${customer.address2}', '${customer.phone1}', '${customer.phone2}', '${customer.email}', '${customer.dlnumber}', '${customer.dlstate}')`
+    const queryString = `INSERT INTO customer (customer_status_id, customer_first_name, customer_last_name, customer_state_name, customer_city_name, customer_zipcode, customer_address, customer_address_2, customer_phone, customer_phone_2, customer_email, customer_driver_license_num, customer_driver_license_state) VALUES (1, '${customer.firstName}', '${customer.lastName}', '${customer.state}', '${customer.city}', '${customer.zip}', '${customer.address1}', '${customer.address2}', '${customer.phone1}', '${customer.phone2}', '${customer.email}', '${customer.dlnumber}', '${customer.dlstate}')`
     connection.query(queryString, function(err, result) {
             if (err) throw err;
             res.json(result);
@@ -172,16 +179,73 @@ app.put('/updateVehicle/:id', (req, res) => {
 })
 
 app.get('/getServices', (req, res) => {
-    connection.query('SELECT * FROM service', function(err, result) {
+    connection.query('SELECT * FROM service WHERE service_status_id = 1 AND IsDelete = 0', function(err, result) {
         if (err) throw err
         res.json(result)
     })
 })
 
-app.get('/getWarranties', (req, res) => {
-    connection.query('SELECT * FROM warranty_option', function(err, result) {
+app.get('/getAllServices', (req, res) => {
+    connection.query('SELECT * FROM service WHERE IsDelete = 0 ORDER BY service_status_id ASC', function(err, result) {
         if (err) throw err
         res.json(result)
+    })
+})
+
+app.post('/addNewService/:name', (req, res) => {
+    connection.query(`INSERT INTO service (service_status_id, service_type) VALUES (1, '${req.params.name}')`, function(err, result) {
+        if (err) throw err
+        res.send('success')
+    })
+})
+
+app.put('/changeServiceStatus/:id/:status', (req, res) => {
+    connection.query(`UPDATE service SET service_status_id = ${req.params.status} WHERE service_id = ${req.params.id}`, function(err, result) {
+        if (err) throw err
+        res.send('success')
+    })
+})
+
+app.put('/removeService/:id', (req, res) => {
+    connection.query(`UPDATE service SET IsDelete = 1 WHERE service_id = ${req.params.id}`, function(err, result) {
+        if (err) throw err
+        res.send('success')
+    })
+})
+
+app.get('/getWarranties', (req, res) => {
+    connection.query('SELECT * FROM warranty_option WHERE IsDelete = 0 AND warranty_option_status_id = 1', function(err, result) {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.get('/getAllWarranties', (req, res) => {
+    connection.query('SELECT * FROM warranty_option WHERE IsDelete = 0 ORDER BY warranty_option_status_id ASC', function(err, result) {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
+app.post('/addNewWarranty/:months/:miles', (req, res) => {
+    connection.query(`INSERT INTO warranty_option (warranty_option_status_id, warranty_option_months, warranty_option_mileage, warranty_name) VALUES (1, ${req.params.months}, ${req.params.miles}, '${req.params.months} months or ${req.params.miles} miles')`, function(err, result) {
+        if (err) throw err
+        res.send('success')
+    })
+})
+
+app.put('/changeWarrantyStatus/:id/:status', (req, res) => {
+    console.log(`UPDATE warranty_option SET warranty_option_status_id = ${req.params.status} WHERE warranty_option_id = ${req.params.id}`)
+    connection.query(`UPDATE warranty_option SET warranty_option_status_id = ${req.params.status} WHERE warranty_option_id = ${req.params.id}`, function(err, result) {
+        if (err) throw err
+        res.send('success')
+    })
+})
+
+app.put('/removeWarranty/:id', (req, res) => {
+    connection.query(`UPDATE warranty_option SET IsDelete = 1 WHERE warranty_option_id = ${req.params.id}`, function(err, result) {
+        if (err) throw err
+        res.send('success')
     })
 })
 
@@ -203,7 +267,7 @@ app.get('/getWarrantyId/:warrantyName', (req, res) => {
 
 app.post('/createOrder', (req, res) => {
     const order = req.body
-    const queryString = `INSERT INTO work_order (vehicle_id, work_order_status_id, current_mileage, completion_date) VALUES (${order.vehicle_id}, 1, ${order.mileage}, '${order.completion_date}')`
+    const queryString = `INSERT INTO work_order (vehicle_id, work_order_status_id, current_mileage, pickup_date) VALUES (${order.vehicle_id}, 1, ${order.mileage}, '${order.pickup_date}')`
     connection.query(queryString, function(err, result) {
         if (err) throw err
     })
@@ -228,9 +292,9 @@ app.post('/addWorkOrderLines', (req,res) => {
 
 app.put('/updateWorkOrder', (req,res) => {
     const orderId = req.body.work_order_id
-    const queryString = `UPDATE work_order SET current_mileage = ${req.body.current_mileage}, completion_date = '${req.body.completion_date}' WHERE work_order_id = ${orderId}`
+    const queryString = `UPDATE work_order SET current_mileage = ${req.body.current_mileage}, pickup_date = '${req.body.pickup_date}' WHERE work_order_id = ${orderId}`
     console.log(queryString)
-    // connection.query(`UPDATE work_order SET current_mileage = ${req.body.current_mileage} SET completion_date = '${req.body.completion_date}' WHERE work_order_id = ${orderId}`)
+    // connection.query(`UPDATE work_order SET current_mileage = ${req.body.current_mileage} SET pickup_date = '${req.body.pickup_date}' WHERE work_order_id = ${orderId}`)
     // console.log(orderDetails)
     for (service of req.body.deletedServices) {
         const queryString2 = `DELETE FROM work_order_line WHERE work_order_line_id = ${service}`
@@ -244,3 +308,4 @@ app.put('/updateWorkOrder', (req,res) => {
     }
     res.send('success')
 })
+
