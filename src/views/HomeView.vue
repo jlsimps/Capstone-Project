@@ -7,20 +7,22 @@
     <div class="card">
       <div class="card-header">
         <div class="container">
+          <form @submit.prevent="handleSearch">
           <div class="row">
               <div class="col-4 my-auto">
                 <label class="mx-3">Last Name</label><input type="text" class="form-control" v-model="lName" required>
               </div>
               <div class="col-4 my-auto">
-                <label class="mx-3">Zip Code</label><input type="text" class="form-control" v-model="zip" required>
+                <label class="mx-3">Zip Code</label><input type="text" class="form-control" v-model="zip" pattern="^\d{5,5}" title="Enter a 5 Digit Zipcode" required>
               </div>
               <div class="col my-auto">
-                <button @click.prevent="handleSearch" class="btn btn-secondary">Search</button>
+                <button class="btn btn-secondary">Search</button>
               </div>
               <div class="col my-auto">
                 <button @click.prevent="handleViewAll" class="btn btn-secondary">View All Orders</button>
               </div>
           </div>
+          </form>
         </div>
       </div>
       <div class="card-body">

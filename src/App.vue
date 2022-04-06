@@ -39,6 +39,8 @@
                 <router-link class="dropdown-item" to="/AddWorkOrder">Create New Work Order</router-link>
                 <div class="dropdown-divider"></div>
                 <router-link class="dropdown-item" to="/ViewWorkOrders">View Existing Work Orders</router-link>
+                <div class="dropdown-divider"></div>
+                <router-link class="dropdown-item" to="/DeletedWorkOrders">View Deleted Work Orders</router-link>
               </div>
             </li>
 

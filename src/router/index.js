@@ -48,6 +48,11 @@ const routes = [
     component: () => import('../views/ViewWorkOrders.vue')
   },
   {
+    path: '/DeletedWorkOrders',
+    name: 'DeletedWorkOrders',
+    component: () => import('../views/DeletedWorkOrders.vue')
+  },
+  {
     path: '/ManageServices',
     name: 'ManageServices',
     component: () => import('../views/ManageServices.vue')

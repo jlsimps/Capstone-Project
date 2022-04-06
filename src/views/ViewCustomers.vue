@@ -7,17 +7,19 @@
     <div class="card">
       <div class="card-header">
         <div class="container">
+          <form @submit.prevent="handleSearch">
           <div class="row d-flex">
               <div class="col-4 my-auto">
-                <label class="mx-3">Phone Number:</label><input type="text" v-model="phoneSearch" required>
+                <label class="mx-3">Phone Number:</label><input type="text" v-model="phoneSearch" placeholder="XXX-XXX-XXXX" pattern="^\d{3}-\d{3}-\d{4}$" title="XXX-XXX-XXXX" required>
               </div>
               <div class="col-2 my-auto d-flex justify-content-start">
-                <button @click.prevent="handleSearch" class="btn btn-secondary">Search</button>
+                <button class="btn btn-secondary">Search</button>
               </div>
               <div class="col-6 my-auto d-flex justify-content-end px-5">
                 <button @click.prevent="handleViewAll" class="btn btn-secondary">View All Customers</button>
               </div>
           </div>
+          </form>
         </div>
       </div>
       <div class="card-body">

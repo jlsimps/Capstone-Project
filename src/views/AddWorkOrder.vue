@@ -67,7 +67,7 @@
                             <form @submit.prevent="saveOrder">
                                 <div class="row">
                                     <div class="detailsHead">
-                                        Fill out order details below
+                                        Complete order details below
                                         <hr class="mt-1 mb-0" />
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@
                                     <div class="row">
                                         <div class="col py-2">
                                             <button class="btn btn-secondary me-5" @click.prevent="addService">Add Service</button>
-                                            <button class="btn btn-secondary ms-5">Save Order</button>
+                                            <button class="btn btn-secondary ms-5" :disabled="servicesAdded.length==0">Save Order</button>
                                         </div>
                                     </div>
                                 </div>
@@ -326,6 +326,9 @@ export default {
 
 .detailsHead {
     font-weight: 500;
+    font-size: 1.2rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-decoration: underline;
 }
 
 .detailsBox {

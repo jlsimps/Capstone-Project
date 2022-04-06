@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div>
     <h1 class="display-5" style="text-align: center;">Existing Work Orders</h1>
     <hr class="my-4">
     <h4 class="display-7" style="text-align: center;">Enter Last Name &amp; Zip Code or Click View All</h4>
@@ -27,7 +27,6 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th>Order Number</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Zip Code</th>
@@ -39,7 +38,6 @@
           </thead>
           <tbody>
             <tr v-for="order in orders" :key="order.work_order_id">
-              <td>{{ order.work_order_id }}</td>
               <td>{{ order.customer_first_name }}</td>
               <td>{{ order.customer_last_name }}</td>
               <td>{{ order.customer_zipcode }}</td>
@@ -214,7 +212,6 @@ import axios from 'axios'
 import moment from 'moment'
 
 export default {
-  name: 'HomeView',
   data () {
     return {
       serviceToAdd: {},

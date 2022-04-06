@@ -27,7 +27,6 @@ app.listen(PORT, () => {
 app.get('/', (req, res) => {
     connection.query(`SELECT * FROM customer`, function(err, result){
         if (err) throw err;
-        console.log(result);
         res.json(result);
     })
 
@@ -47,8 +46,22 @@ app.get('/getOrders' , (req, res) =>{
     })
 })
 
+app.get('/getDeletedOrders' , (req, res) =>{
+    connection.query(`SELECT * FROM recent_orders WHERE work_order_status_id = 2 ORDER BY pickup_date DESC`, function(err, result){
+        if (err) throw err;
+        res.json(result);
+    })
+})
+
 app.put('/removeOrder/:id' , (req, res) =>{
     connection.query(`UPDATE work_order SET work_order_status_id = 2 WHERE work_order_id = ${req.params.id}`, function(err, result){
+        if (err) throw err;
+        res.send('success');
+    })
+})
+
+app.put('/restoreOrder/:id' , (req, res) =>{
+    connection.query(`UPDATE work_order SET work_order_status_id = 1 WHERE work_order_id = ${req.params.id}`, function(err, result){
         if (err) throw err;
         res.send('success');
     })

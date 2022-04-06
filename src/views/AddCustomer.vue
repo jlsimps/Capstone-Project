@@ -54,7 +54,7 @@
                     <div class="form-group row pb-3">
                         <label class="col-sm-2 col-form-label">Zip Code</label>
                         <div class="col-sm-10 my-auto">
-                            <input type="text" class="form-control" v-model="customer.zip" required>
+                            <input type="text" class="form-control" v-model="customer.zip" pattern="^\d{5,5}" title="Enter a 5 Digit Zipcode" required>
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                     <div class="form-group row pb-3">
                         <label class="col-sm-2 col-form-label">Phone Number 1</label>
                         <div class="col-sm-10 my-auto">
-                            <input type="tel" class="form-control" v-model="customer.phone1" required>
+                            <input type="tel" class="form-control" id="phoneInput" v-model="customer.phone1" placeholder="XXX-XXX-XXXX" pattern="^\d{3}-\d{3}-\d{4}$" title="XXX-XXX-XXXX" required>
                         </div>
                     </div>
                     <div class="form-group row pb-3">
@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 <div class="card-header">
-                    <h5>Drivers License Info</h5>
+                    <h5>Drivers License Info (Optional)</h5>
                 </div>
                 <div class="card-body">
                     <div class="form-group row pb-3">
