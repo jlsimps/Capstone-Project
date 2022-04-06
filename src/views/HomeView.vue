@@ -43,7 +43,7 @@
               <td>{{ order.customer_zipcode }}</td>
               <td>{{ order.vehicle_year }}</td>
               <td>{{ order.model_name }}</td>
-              <td>{{ formatDate(order.completion_date) }}</td>
+              <td>{{ formatDate(order.pickup_date) }}</td>
               <!-- <td><button class="btn btn-secondary" @click="showOrderInfo(order.work_order_id, order.current_mileage)">View Details</button></td> -->
               <td><a href="" @click.prevent><img src="../../src/assets/view2.png" @click="showOrderInfo(order.work_order_id, order.current_mileage)" style="width:25px;height:25px" /></a></td>
           </tr>
@@ -149,7 +149,8 @@ export default {
       const apiURL = `http://localhost:3000/getOrderDetails/${orderId}`
       axios.get(apiURL).then((res) => {
         this.orderDetails = res.data
-        this.orderDate = this.orderDetails.completion_date
+        console.log(this.orderDetails)
+        this.orderDate = this.orderDetails[0].pickup_date
         this.orderMileage = currentMileage
         console.log(this.expired)
       }).catch(error => {

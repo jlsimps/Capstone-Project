@@ -34,7 +34,7 @@
               <th>Vehicle Year</th>
               <th>Vehicle Model</th>
               <th>Service Date</th>
-              <th>Details</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -45,11 +45,12 @@
               <td>{{ order.customer_zipcode }}</td>
               <td>{{ order.vehicle_year }}</td>
               <td>{{ order.model_name }}</td>
-              <td>{{ formatDate(order.completion_date) }}</td>
+              <td>{{ formatDate(order.pickup_date) }}</td>
               <!-- <td><button class="btn btn-secondary" @click="showOrderInfo(order.work_order_id, order.current_mileage)">View/Edit Details</button></td> -->
               <td>
                   <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="View Details" src="../../src/assets/view2.png" @click="showOrderInfo(order.work_order_id, order.current_mileage)" style="width:25px;height:25px" /></a>
                   <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="Edit Details" src="../../src/assets/edit2.png" @click="editOrderInfo(order.work_order_id, order.current_mileage)" style="width:25px;height:25px" /></a>
+                  <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="Delete Order" src="../../src/assets/delete.png" @click="deleteOrder(order.work_order_id)" style="width:25px;height:25px" type="button" data-toggle="modal" data-target="#deleteOrderModal" /></a>
               </td>
           </tr>
       </tbody>
@@ -68,7 +69,7 @@
             <div class="modal-body p-4">
               <div class="row my-4">
                 <div class="col mx-auto">
-                  <strong>Completion Date:</strong> {{ formatDate(orderDate) }}
+                  <strong>Pickup Date:</strong> {{ formatDate(orderDate) }}
                 </div>
                 <div class="col mx-auto">
                   <strong>Mileage at Time of Service:</strong> {{ orderMileage }}
@@ -112,43 +113,18 @@
               <div class="row mt-4 mb-5 text-center">
                 <div class="col mx-auto">
                   <label><strong>Date:</strong></label>
-                  <input class="form-control" type="date" v-model="this.editOrderDetails.completion_date">
+                  <input class="form-control" type="date" v-model="this.editOrderDetails.pickup_date">
                 </div>
-                <!-- <div class="col-4">
-                </div> -->
                 <div class="col mx-auto">
                   <label><strong>Mileage:</strong></label>
                   <input class="form-control me-1" type="number" v-model="this.editOrderDetails.current_mileage">
                 </div>
-                <!-- <div class="col-4">
-                </div> -->
               </div>
               <hr class="mt-2 mb-0" />
               <div class="row mt-2 py-2">
                   <div class="col text-center detailsHead">
                       Services Completed
                   </div>
-                <!-- <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Service Type</th>
-                      <th>Months Covered</th>
-                      <th>Miles Covered</th>
-                      <th>Expiration Date</th>
-                      <th>Expiration Mileage</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="detail in orderDetails" :key="detail.work_order_id">
-                      <td>{{ detail.service_type }}</td>
-                      <td>{{ detail.warranty_option_months }}</td>
-                      <td>{{ detail.warranty_option_mileage }}</td>
-                      <td v-if="today<detail.work_order_expiration_date" style="color:green">{{ formatDate(detail.work_order_expiration_date) }}</td>
-                      <td v-if="today>detail.work_order_expiration_date" style="color:red">{{ formatDate(detail.work_order_expiration_date) }}</td>
-                      <td>{{ detail.work_order_expiration_mileage }}</td>
-                    </tr>
-                  </tbody>
-                </table> -->
               </div>
                 <div class="row">
                     <div class="col">
@@ -213,6 +189,21 @@
           </div>
         </div>
       </div>
+      <div class="modal fade" id="deleteOrderModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row text-center">
+                          <strong>Are you sure you want to delete this order?</strong>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mx-2" data-dismiss="modal" @click="deleteDetails = []">Cancel</button>
+                        <button type="button" class="btn btn-danger btn-sm mx-2" @click="confirmDelete">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
       </teleport>
     </div>
   </div>
@@ -240,7 +231,8 @@ export default {
       showDetails: false,
       editDetails: false,
       today: '',
-      expired: true
+      expired: true,
+      deleteDetails: []
     }
   },
   created () {
@@ -287,7 +279,7 @@ export default {
       const apiURL = `http://localhost:3000/getOrderDetails/${orderId}`
       axios.get(apiURL).then((res) => {
         this.orderDetails = res.data
-        this.orderDate = this.orderDetails.completion_date
+        this.orderDate = this.orderDetails.pickup_date
         this.orderMileage = currentMileage
         console.log(this.expired)
       }).catch(error => {
@@ -301,7 +293,7 @@ export default {
         this.editOrderDetails = {
           work_order_id: res.data[0].work_order_id,
           current_mileage: res.data[0].current_mileage,
-          completion_date: this.formatDate(res.data[0].completion_date),
+          pickup_date: this.formatDate(res.data[0].pickup_date),
           services: [],
           deletedServices: [],
           addedServices: []
@@ -364,7 +356,15 @@ export default {
       console.log(this.editOrderDetails)
       const apiURL = 'http://localhost:3000/updateWorkOrder'
       axios.put(apiURL, this.editOrderDetails).then(() => {
-        // location.reload()
+        location.reload()
+      })
+    },
+    deleteOrder (orderID) {
+      this.deleteDetails = orderID
+    },
+    confirmDelete () {
+      axios.put(`http://localhost:3000/removeOrder/${this.deleteDetails}`).then(() => {
+        location.reload()
       })
     }
   }

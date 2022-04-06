@@ -16,7 +16,7 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <router-link class="dropdown-item" to="/AddCustomer">Add a New Customer</router-link>
                 <div class="dropdown-divider"></div>
-                <router-link class="dropdown-item" to="/ViewCustomers">View/Edit Customers</router-link>
+                <router-link class="dropdown-item" to="/ViewCustomers">View Existing Customers</router-link>
               </div>
             </li>
 
@@ -27,7 +27,7 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <router-link class="dropdown-item" to="/AddVehicle">Add a New Vehicle</router-link>
                 <div class="dropdown-divider"></div>
-                <router-link class="dropdown-item" to="/ViewVehicles">View/Edit Vehicles</router-link>
+                <router-link class="dropdown-item" to="/ViewVehicles">View Existing Vehicles</router-link>
               </div>
             </li>
 
@@ -50,8 +50,6 @@
                 <router-link class="dropdown-item" to="/ManageServices">Manage Services Offered</router-link>
                 <div class="dropdown-divider"></div>
                 <router-link class="dropdown-item" to="/ManageVehicles">Manage Vehicles Serviced</router-link>
-                <div class="dropdown-divider"></div>
-                <router-link class="dropdown-item" to="/ViewWorkOrders">Manage Vehicles Serviced</router-link>
               </div>
             </li>
 

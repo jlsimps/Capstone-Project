@@ -10,7 +10,7 @@
     <!-- <h4 class="display-7" style="text-align: center;">Add or Edit Services and Warranties Offered to Customers</h4> -->
         <div class="mainCard card pb-3">
             <div class="card-header">
-                <h4>Add or Edit Services and Warranties Offered to Customers</h4>
+                <h5>Add or Edit Services and Warranties Offered to Customers</h5>
             </div>
             <div>
                 <b-alert
