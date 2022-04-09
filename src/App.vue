@@ -1,16 +1,20 @@
 <template>
     <b-container>
       <b-row>
-        <nav class="navbar navbar-expand navbar-light px-4 fixed-top" style="justify-content:space-between;padding-left:5px;">
+        <nav class="navbar navbar-expand navbar-light fixed-top" style="justify-content:space-between;padding-right:50px;padding-left:20px;">
           <a href="/"><img src="../src/assets/logo2.png" style="width:270px;height:auto;"></a>
           <ul class="nav navbar-nav" style="flex-wrap: nowrap">
 
             <li class="nav-item active">
-              <router-link class="nav-link" to="/">Home</router-link>
+              <router-link class="nav-link" to="/">
+              <img src="../src/assets/home.png" class="navicon bi d-block mx-auto mb-1" width="24" height="24">
+              Home
+              </router-link>
             </li>
 
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="../src/assets/customers.png" class="bi d-block mx-auto mb-1" width="24" height="24">
                 Customers
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -22,6 +26,7 @@
 
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="../src/assets/vehicle.png" class="bi d-block mx-auto mb-1" width="24" height="24">
                 Vehicles
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -33,6 +38,7 @@
 
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="../src/assets/orders.png" class="bi d-block mx-auto mb-1" width="24" height="24">
                 Work Orders
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -46,6 +52,7 @@
 
             <li class="nav-item dropdown lastnav">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="../src/assets/system.png" class="bi d-block mx-auto mb-1" width="24" height="24">
                 System Services
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -63,7 +70,7 @@
         <router-view></router-view>
       </b-row>
       <div class="footer navbar-fixed-bottom">
-        <img src="../src/assets/teamlogo.png" style="width:50px;height:auto;">
+        <img src="../src/assets/teamlogo.png" style="width:45px;height:auto;">
         <span class="logoText text-muted">© Copyright Radioactive Tech Solutions</span>
       </div>
     </b-container>
@@ -73,14 +80,14 @@
   .navbar {
     background-color: #b5c7da;
     font-family: Tahoma, sans-serif;
-    font-weight:500;
+    /* font-weight:500; */
     color: rgb(255, 255, 255);
-    border-bottom: 5px solid #383742;
-    font-size: 1.4rem;
+    border-bottom: 6px solid #383742;
+    font-size: 1rem;
   }
 
   .navbar a {
-    color: black
+    color: #383742
   }
   .navbar-expand {
     justify-content: space-between;
@@ -123,7 +130,6 @@
   .dropdown-item {
     font-family: Arial, sans-serif;
   }
-
   /* .logoText{
     text-muted;
   } */

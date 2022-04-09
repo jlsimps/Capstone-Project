@@ -23,30 +23,32 @@
         </div>
       </div>
       <div class="card-body">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>Last Name</th>
-              <th>First Name</th>
-              <th>Zip Code</th>
-              <th>Phone Number</th>
-              <th>View Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="customer in customers" :key="customer.customer_id">
-              <td>{{ customer.customer_last_name }}</td>
-              <td>{{ customer.customer_first_name }}</td>
-              <td>{{ customer.customer_zipcode }}</td>
-              <td>{{ customer.customer_phone }}</td>
-              <td>
-                <router-link :to="{name: 'EditCustomer', params: { id: customer.customer_id }}">
-                  <img src="../../src/assets/edit2.png" @click="showOrderInfo(order.work_order_id, order.current_mileage)" style="width:25px;height:25px" />
-                </router-link>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="stickyHead">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Zip Code</th>
+                <th>Phone Number</th>
+                <th>View Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="customer in customers" :key="customer.customer_id">
+                <td>{{ customer.customer_last_name }}</td>
+                <td>{{ customer.customer_first_name }}</td>
+                <td>{{ customer.customer_zipcode }}</td>
+                <td>{{ customer.customer_phone }}</td>
+                <td>
+                  <router-link :to="{name: 'EditCustomer', params: { id: customer.customer_id }}">
+                    <img src="../../src/assets/edit2.png" @click="showOrderInfo(order.work_order_id, order.current_mileage)" style="width:25px;height:25px" />
+                  </router-link>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     </div>
@@ -90,3 +92,25 @@ export default {
   }
 }
 </script>
+<style scoped>
+.stickyHead {
+  overflow: auto;
+  max-height: 375px;
+}
+
+.stickyHead thead th {
+  position: sticky;
+  top: 0;
+  /* z-index: 1; */
+  background: #ffffff;
+}
+.stickyHead table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.stickyHead thead th {
+  border-top: none !important;
+  border-bottom: none !important;
+  box-shadow: inset 0 -2px 0 #000000;
+}
+</style>

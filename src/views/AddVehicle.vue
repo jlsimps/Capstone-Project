@@ -18,7 +18,7 @@
                         <button @click="handleViewAll" class="btn btn-secondary">View All Customers</button>
                     </div>
                 </div>
-                <div style="overflow-y:auto;max-height:375px;">
+                <div class="stickyHead" v-if="customers.length>0">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -42,12 +42,12 @@
                 </div>
             </div>
         </div>
-        <div class="card mt-5">
+        <div class="card mt-5" v-if="customerSelected">
             <div class="card-header" id="details">
                 <h5>Enter Vehicle Details</h5>
             </div>
             <div class="card body mb-0" style="border:0px">
-                <div class="form-group" v-if="customerSelected">
+                <div class="form-group">
                     <form @submit="handleSubmit">
                         <div class="form-group row py-3 px-5">
                             <label class="col-sm-2 col-form-label">Owner</label>
@@ -156,6 +156,7 @@ export default {
     }
   },
   created () {
+    console.log(this.customers)
     const apiURL = 'http://localhost:3000/getMakes'
     const apiURL2 = 'http://localhost:3000/getColors'
     const apiURL3 = 'http://localhost:3000/getStates'
@@ -237,4 +238,26 @@ export default {
     margin:20px;
     background-color: rgb(243, 243, 243);
 }
+
+.stickyHead {
+  overflow: auto;
+  max-height: 375px;
+}
+
+.stickyHead thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #ffffff;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+table thead th {
+  border-top: none !important;
+  border-bottom: none !important;
+  box-shadow: inset 0 -2px 0 #000000;
+}
+
 </style>

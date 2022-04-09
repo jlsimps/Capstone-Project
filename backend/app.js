@@ -95,6 +95,42 @@ app.get('/getOrderDetails/:orderid', (req, res) => {
     })
 })
 
+app.get('/getClaimDetails/:orderid', (req, res) => {
+    connection.query(`SELECT * FROM claim_details WHERE work_order_id = ${req.params.orderid} AND work_order_line_status_id = 1 AND IsDelete = 0`, function(err, result) {
+        if (err) throw err;
+        res.json(result)
+    })
+})
+
+app.put('/updateClaims', (req, res) => {
+    const claimsToAdd = req.body.claimsToAdd
+    const claimsToRemove = req.body.claimsToRemove
+    if (claimsToAdd.length>0) {
+        for (claim of claimsToAdd) {
+            if ((!claim.isDeleted) && (claim.warranty_claim_notes)) {
+                const queryString = `INSERT INTO warranty_claim (work_order_line_id, warranty_claim_date, warranty_claim_amount, warranty_claim_notes) VALUES (${claim.work_order_line_id}, '${claim.warranty_claim_date}', ${claim.warranty_claim_amount}, '${claim.warranty_claim_notes}')`
+                connection.query(queryString, function(err) {
+                    if (err) throw err
+                })
+            } else if (!claim.isDeleted) {
+                const queryString = `INSERT INTO warranty_claim (work_order_line_id, warranty_claim_date, warranty_claim_amount) VALUES (${claim.work_order_line_id}, '${claim.warranty_claim_date}', ${claim.warranty_claim_amount})` 
+                connection.query(queryString, function(err) {
+                    if (err) throw err
+                })
+            }
+        }
+    }
+    if (claimsToRemove.length>0) {
+        for (claim of claimsToRemove) {
+            const queryString = `UPDATE warranty_claim SET IsDelete = 1 WHERE warranty_claim_id = ${claim}`
+            connection.query(queryString, function(err) {
+                if (err) throw err
+            })
+        }
+    }
+    res.send('success')
+})
+
 app.get('/getAllOrderDetails', (req, res) => {
     connection.query('SELECT * FROM order_details', function(err, result) {
         if (err) throw err
