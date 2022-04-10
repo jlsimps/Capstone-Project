@@ -66,7 +66,7 @@
         </nav>
       </b-row>
 
-      <b-row class="mt-3 text-center body" style="padding-top:8%">
+      <b-row class="mt-3 body" style="padding-top:8%">
         <router-view></router-view>
       </b-row>
       <div class="footer navbar-fixed-bottom">
@@ -129,6 +129,10 @@
 
   .dropdown-item {
     font-family: Arial, sans-serif;
+  }
+  .card {
+    border:0;
+    box-shadow:0 10px 15px -3px rgba(0,0,0,.07),0 4px 6px -2px rgba(0,0,0,.05)
   }
   /* .logoText{
     text-muted;

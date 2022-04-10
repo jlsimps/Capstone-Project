@@ -151,7 +151,7 @@
                                             <label class="col px-5 d-flex justify-content-end">Service Type:</label>
                                         </div>
                                         <div class="col-8 d-flex justify-content-start pe-5">
-                                            <select class="form-control" v-model="serviceDetails.service_type" required>
+                                            <select class="form-select" v-model="serviceDetails.service_type" required>
                                                 <option v-for="service in services" v-bind:key="service.service_id" v-bind:value="{service_type: service.service_type, service_id: service.service_id}">
                                                     {{ service.service_type }}
                                                 </option>
@@ -163,7 +163,7 @@
                                             <label class="col px-5 d-flex justify-content-end">Warranty Option:</label>
                                         </div>
                                         <div class="col-8 d-flex justify-content-start pe-5">
-                                            <select class="form-control" v-model="serviceDetails.warranty_name" required>
+                                            <select class="form-select" v-model="serviceDetails.warranty_name" required>
                                                 <option v-for="warranty in warranties" v-bind:key="warranty.warranty_name" v-bind:value="{warranty_name: warranty.warranty_name, warranty_option_id: warranty.warranty_option_id}">
                                                     {{ warranty.warranty_name }}
                                                 </option>

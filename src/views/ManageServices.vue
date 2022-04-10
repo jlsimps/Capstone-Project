@@ -9,7 +9,7 @@
     <hr class="my-4">
     <!-- <h4 class="display-7" style="text-align: center;">Add or Edit Services and Warranties Offered to Customers</h4> -->
         <div class="mainCard card pb-3">
-            <div class="card-header">
+            <div class="card-header text-center">
                 <h5>Add or Edit Services and Warranties Offered to Customers</h5>
             </div>
             <div>
@@ -51,7 +51,7 @@
                 <div class="container px-0">
                     <div class="row">
                         <div class="col ps-0">
-                            <div class="card p-3">
+                            <div class="card p-3 infoCard">
                                 <div class="row text-center">
                                     <h5 class="py-2">Services</h5>
                                 </div>
@@ -62,38 +62,40 @@
                                         <button v-bind:disabled="newServiceName==''" class="btn btn-secondary px-5" type="button" data-toggle="modal" data-target="#confirmServiceModal">Add</button>
                                     </div>
                                 </div>
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Service Name</th>
-                                            <th>Status</th>
-                                            <th>Remove</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="service in services" :key="service.service_id">
-                                            <td> {{ service.service_type }} </td>
-                                            <td v-if="service.service_status_id==2">
-                                                <span style="color:red">Inactive</span>
-                                                <button class="btn btn-outline-secondary btn-sm ms-3" @click="changeStatus('service', service.service_id, service.service_status_id)">Set Active</button>
-                                            </td>
-                                            <td v-else>
-                                                <span style="color:green">Active</span>
-                                                <button class="btn btn-outline-secondary btn-sm ms-3" @click="changeStatus('service', service.service_id, service.service_status_id)"><i>Set Inactive</i></button>
-                                            </td>
-                                            <td>
-                                                <button v-b-tooltip.hover title="Remove Service" type="button" class="close" @click="handleRemove('service', service.service_id)">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="stickyHead">
+                                  <table class="table table-hover">
+                                      <thead>
+                                          <tr>
+                                              <th>Service Name</th>
+                                              <th>Status</th>
+                                              <th>Remove</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr v-for="service in services" :key="service.service_id">
+                                              <td> {{ service.service_type }} </td>
+                                              <td v-if="service.service_status_id==2">
+                                                  <span style="color:red">Inactive</span>
+                                                  <button class="btn btn-outline-secondary btn-sm ms-3" @click="changeStatus('service', service.service_id, service.service_status_id)">Set Active</button>
+                                              </td>
+                                              <td v-else>
+                                                  <span style="color:green">Active</span>
+                                                  <button class="btn btn-outline-secondary btn-sm ms-3" @click="changeStatus('service', service.service_id, service.service_status_id)"><i>Set Inactive</i></button>
+                                              </td>
+                                              <td>
+                                                  <button v-b-tooltip.hover title="Remove Service" type="button" class="close" @click="handleRemove('service', service.service_id)">
+                                                      <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                              </td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                                </div>
                             </div>
                         </div>
                         <div class="col pe-0">
-                            <div class="card p-3">
-                                <div class="row">
+                            <div class="card p-3 infoCard">
+                                <div class="row text-center">
                                     <h5 class="py-2">Warranties</h5>
                                 </div>
                                 <div class="row">
@@ -104,34 +106,36 @@
                                         <button v-bind:disabled="(newWarrantyMonths=='' || newWarrantyMiles=='')" class="btn btn-secondary px-5" type="button" data-toggle="modal" data-target="#confirmWarrantyModal">Add</button>
                                     </div>
                                 </div>
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Warranty Type</th>
-                                            <th>Status</th>
-                                            <th>Remove</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="warranty in warranties" :key="warranty.warranty_option_id">
-                                            <td> {{ warranty.warranty_name }} </td>
-                                            <td v-if="warranty.warranty_option_status_id==2">
-                                                <span style="color:red">Inactive</span>
-                                                <button class="btn btn-outline-secondary btn-sm ms-3" @click="changeStatus('warranty', warranty.warranty_option_id, warranty.warranty_option_status_id)">Set Active</button>
-                                            </td>
-                                            <td v-else>
-                                                <span style="color:green">Active</span>
-                                                <button class="btn btn-outline-secondary btn-sm ms-3" @click="changeStatus('warranty', warranty.warranty_option_id, warranty.warranty_option_status_id)"><i>Set Inactive</i></button>
-                                            </td>
-                                            <td>
-                                                <button v-b-tooltip.hover title="Remove Warranty" type="button" class="close" @click="handleRemove('warranty', warranty.warranty_option_id)">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </td>
+                                <div class="stickyHead">
+                                  <table class="table table-hover">
+                                      <thead>
+                                          <tr>
+                                              <th>Warranty Type</th>
+                                              <th>Status</th>
+                                              <th>Remove</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr v-for="warranty in warranties" :key="warranty.warranty_option_id">
+                                              <td> {{ warranty.warranty_name }} </td>
+                                              <td v-if="warranty.warranty_option_status_id==2">
+                                                  <span style="color:red">Inactive</span>
+                                                  <button class="btn btn-outline-secondary btn-sm ms-3" @click="changeStatus('warranty', warranty.warranty_option_id, warranty.warranty_option_status_id)">Set Active</button>
+                                              </td>
+                                              <td v-else>
+                                                  <span style="color:green">Active</span>
+                                                  <button class="btn btn-outline-secondary btn-sm ms-3" @click="changeStatus('warranty', warranty.warranty_option_id, warranty.warranty_option_status_id)"><i>Set Inactive</i></button>
+                                              </td>
+                                              <td>
+                                                  <button v-b-tooltip.hover title="Remove Warranty" type="button" class="close" @click="handleRemove('warranty', warranty.warranty_option_id)">
+                                                      <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                              </td>
 
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -342,4 +346,28 @@ export default {
     border-right: 1px solid #e5e5e5;
     border-radius: 5px;
 }
+.stickyHead {
+  overflow: auto;
+  max-height: 400px;
+  min-height: 400px;
+}
+
+.stickyHead thead th {
+  position: sticky;
+  top: 0;
+  /* z-index: 1; */
+  background: #ffffff;
+}
+.stickyHead table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.stickyHead thead th {
+  border-top: none !important;
+  border-bottom: none !important;
+  box-shadow: inset 0 -2px 0 #000000;
+}
+.card {
+    box-shadow:0 0 0 0 rgba(0,0,0,.07),0 0 0 0 rgba(0,0,0,.05) !important;
+  }
 </style>

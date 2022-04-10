@@ -24,35 +24,37 @@
         </div>
       </div>
       <div class="card-body">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Zip Code</th>
-              <th>Vehicle Year</th>
-              <th>Vehicle Model</th>
-              <th>Service Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="order in orders" :key="order.work_order_id">
-              <td>{{ order.customer_first_name }}</td>
-              <td>{{ order.customer_last_name }}</td>
-              <td>{{ order.customer_zipcode }}</td>
-              <td>{{ order.vehicle_year }}</td>
-              <td>{{ order.model_name }}</td>
-              <td>{{ formatDate(order.pickup_date) }}</td>
-              <!-- <td><button class="btn btn-secondary" @click="showOrderInfo(order.work_order_id, order.current_mileage)">View/Edit Details</button></td> -->
-              <td>
-                  <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="View Details" src="../../src/assets/view2.png" @click="showOrderInfo(order.work_order_id, order.current_mileage)" style="width:25px;height:25px" /></a>
-                  <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="Edit Details" src="../../src/assets/edit2.png" @click="editOrderInfo(order.work_order_id, order.current_mileage)" style="width:25px;height:25px" /></a>
-                  <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="Delete Order" src="../../src/assets/delete.png" @click="deleteOrder(order.work_order_id)" style="width:25px;height:25px" type="button" data-toggle="modal" data-target="#deleteOrderModal" /></a>
-              </td>
-          </tr>
-      </tbody>
-        </table>
+        <div class="stickyHead">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Zip Code</th>
+                <th>Vehicle Year</th>
+                <th>Vehicle Model</th>
+                <th>Service Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="order in orders" :key="order.work_order_id">
+                <td>{{ order.customer_first_name }}</td>
+                <td>{{ order.customer_last_name }}</td>
+                <td>{{ order.customer_zipcode }}</td>
+                <td>{{ order.vehicle_year }}</td>
+                <td>{{ order.model_name }}</td>
+                <td>{{ formatDate(order.pickup_date) }}</td>
+                <!-- <td><button class="btn btn-secondary" @click="showOrderInfo(order.work_order_id, order.current_mileage)">View/Edit Details</button></td> -->
+                <td>
+                    <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="View Details" src="../../src/assets/view2.png" @click="showOrderInfo(order.work_order_id, order.current_mileage)" style="width:25px;height:25px" /></a>
+                    <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="Edit Details" src="../../src/assets/edit2.png" @click="editOrderInfo(order.work_order_id, order.current_mileage)" style="width:25px;height:25px" /></a>
+                    <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="Delete Order" src="../../src/assets/delete.png" @click="deleteOrder(order.work_order_id)" style="width:25px;height:25px" type="button" data-toggle="modal" data-target="#deleteOrderModal" /></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <teleport to="body">
       <div id="overlay" v-if="showDetails">
@@ -121,9 +123,10 @@
               <hr class="mt-2 mb-0" />
               <div class="row mt-2 py-2">
                   <div class="col text-center detailsHead">
-                      Services Completed
+                      <h5>Services Completed</h5>
                   </div>
               </div>
+              <hr class="mt-2 mb-0" />
                 <div class="row">
                     <div class="col">
                         <table class="table table-hover table-sm text-center">
@@ -177,11 +180,9 @@
                         </table>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col text-center my-2">
-                        <button class="btn btn-secondary me-2" @click="editDetails=false">Cancel Changes</button>
+                <div class="modal-footer mt-5">
+                        <button class="btn btn-outline-danger me-2" @click="editDetails=false">Cancel Changes</button>
                         <button class="btn btn-secondary ms-2" @click="handleSaveChanges">Save Changes</button>
-                    </div>
                 </div>
             </div>
           </div>
@@ -379,5 +380,25 @@ export default {
 
 .detailsHead {
   font-weight: 500;
+}
+.stickyHead {
+  overflow: auto;
+  max-height: 375px;
+}
+
+.stickyHead thead th {
+  position: sticky;
+  top: 0;
+  /* z-index: 1; */
+  background: #ffffff;
+}
+.stickyHead table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.stickyHead thead th {
+  border-top: none !important;
+  border-bottom: none !important;
+  box-shadow: inset 0 -2px 0 #000000;
 }
 </style>

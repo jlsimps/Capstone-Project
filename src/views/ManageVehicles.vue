@@ -24,7 +24,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-1 my-auto">
+                    <div class="col-1 my-auto text-center">
                         <i>OR</i>
                     </div>
                     <div class="col">
@@ -46,46 +46,48 @@
                                         <h5>Make Details</h5>
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col">
-                                        <strong>Make Name:</strong>
-                                    </div>
-                                    <div class="col">
-                                        {{ selectedMakeDetails.make_name }}
-                                    </div>
-                                </div>
-                                <div class="row" v-if="selectedMakeDetails.make_status==1">
-                                    <div class="col">
-                                        <strong>Make Status:</strong>
-                                    </div>
-                                    <div class="col">
-                                        <span style="color:green">Active</span>
-                                    </div>
-                                </div>
-                                <div class="row" v-else>
-                                    <div class="col">
-                                        <strong>Make Status:</strong>
-                                    </div>
-                                    <div class="col">
-                                        <span style="color:red">Inactive</span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <strong>Models Serviced:</strong>
-                                    </div>
-                                    <div class="col">
-                                        {{ selectedMakeDetails.models_serviced }}
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class="row pb-3">
-                                    <div class="col">
-                                        <button class="btn btn-sm btn-secondary" @click="changeMakeStatus">Change Make Status</button>
-                                    </div>
-                                    <div class="col">
-                                        <button class="btn btn-sm btn-danger" @click="removeMake">Delete Make</button>
-                                    </div>
+                                <div class="card-body">
+                                  <div class="row mt-3">
+                                      <div class="col">
+                                          <strong>Make Name:</strong>
+                                      </div>
+                                      <div class="col">
+                                          {{ selectedMakeDetails.make_name }}
+                                      </div>
+                                  </div>
+                                  <div class="row" v-if="selectedMakeDetails.make_status==1">
+                                      <div class="col">
+                                          <strong>Make Status:</strong>
+                                      </div>
+                                      <div class="col">
+                                          <span style="color:green">Active</span>
+                                      </div>
+                                  </div>
+                                  <div class="row" v-else>
+                                      <div class="col">
+                                          <strong>Make Status:</strong>
+                                      </div>
+                                      <div class="col">
+                                          <span style="color:red">Inactive</span>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col">
+                                          <strong>Models Serviced:</strong>
+                                      </div>
+                                      <div class="col">
+                                          {{ selectedMakeDetails.models_serviced }}
+                                      </div>
+                                  </div>
+                                  <hr />
+                                  <div class="row pb-3">
+                                      <div class="col">
+                                          <button class="btn btn-sm btn-secondary" @click="changeMakeStatus">Change Make Status</button>
+                                      </div>
+                                      <div class="col">
+                                          <button class="btn btn-sm btn-danger" @click="removeMake">Delete Make</button>
+                                      </div>
+                                  </div>
                                 </div>
                             </div>
                             <b-alert
@@ -107,50 +109,54 @@
                                         <h5>Models</h5>
                                     </div>
                                 </div>
-                                <div class="row my-3">
-                                    <div class="input-group">
-                                        <span class="addText input-group-text ms-1">Add New Model</span>
-                                        <input type="text" class="form-control" placeholder="Model Name" v-model="newModelName">
-                                        <button v-bind:disabled="newModelName==''" class="btn btn-secondary me-1" type="button" data-toggle="modal" data-target="#confirmModelModal">ADD</button>
-                                    </div>
+                                <div class="card-body">
+                                  <div class="row my-3">
+                                      <div class="input-group">
+                                          <span class="addText input-group-text ms-1">Add New Model</span>
+                                          <input type="text" class="form-control" placeholder="Model Name" v-model="newModelName">
+                                          <button v-bind:disabled="newModelName==''" class="btn btn-secondary me-1" type="button" data-toggle="modal" data-target="#confirmModelModal">ADD</button>
+                                      </div>
+                                  </div>
+                                  <b-alert
+                                      class="mb-0 mt-4"
+                                      variant="danger"
+                                      dismissible
+                                      fade
+                                      v-model="showActiveModelAlert"
+                                      @dismissed="showActiveModelAlert=false"
+                                  >
+                                      <svg width="24" height="24"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                      This model is linked to an existing order, unable to delete!
+                                  </b-alert>
+                                  <div class="stickyHead">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Model Name</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="model in models" :key="model.model_id">
+                                                <td> {{ model.model_name }}</td>
+                                                <td v-if="model.model_status_id==1">
+                                                    <span style="color:green">Active</span>
+                                                </td>
+                                                <td v-else>
+                                                    <span style="color:red">Inactive</span>
+                                                </td>
+                                                <td class="my-auto col-4">
+                                                    <button class="btn btn-outline-secondary btn-sm me-3" @click="changeModelStatus(model.model_id, model.model_status_id)">Change Status</button>
+                                                    <button v-b-tooltip.hover title="Remove Model" type="button" class="close" @click="removeModel(model.model_id)">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                  </div>
                                 </div>
-                                <b-alert
-                                    class="mb-0 mt-4"
-                                    variant="danger"
-                                    dismissible
-                                    fade
-                                    v-model="showActiveModelAlert"
-                                    @dismissed="showActiveModelAlert=false"
-                                >
-                                    <svg width="24" height="24"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                                    This model is linked to an existing order, unable to delete!
-                                </b-alert>
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Model Name</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="model in models" :key="model.model_id">
-                                            <td> {{ model.model_name }}</td>
-                                            <td v-if="model.model_status_id==1">
-                                                <span style="color:green">Active</span>
-                                            </td>
-                                            <td v-else>
-                                                <span style="color:red">Inactive</span>
-                                            </td>
-                                            <td class="my-auto col-4">
-                                                <button class="btn btn-outline-secondary btn-sm me-3" @click="changeModelStatus(model.model_id, model.model_status_id)">Change Status</button>
-                                                <button v-b-tooltip.hover title="Remove Model" type="button" class="close" @click="removeModel(model.model_id)">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
                     </div>
@@ -377,5 +383,24 @@ export default {
 }
 </script>
 <style scoped>
+.stickyHead {
+  overflow: auto;
+  max-height: 375px;
+}
 
+.stickyHead thead th {
+  position: sticky;
+  top: 0;
+  /* z-index: 1; */
+  background: #ffffff;
+}
+.stickyHead table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.stickyHead thead th {
+  border-top: none !important;
+  border-bottom: none !important;
+  box-shadow: inset 0 -2px 0 #000000;
+}
 </style>

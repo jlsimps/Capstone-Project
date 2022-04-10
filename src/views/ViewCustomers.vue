@@ -42,7 +42,7 @@
                 <td>{{ customer.customer_phone }}</td>
                 <td>
                   <router-link :to="{name: 'EditCustomer', params: { id: customer.customer_id }}">
-                    <img src="../../src/assets/edit2.png" @click="showOrderInfo(order.work_order_id, order.current_mileage)" style="width:25px;height:25px" />
+                    <img src="../../src/assets/edit2.png" style="width:25px;height:25px" />
                   </router-link>
                 </td>
               </tr>

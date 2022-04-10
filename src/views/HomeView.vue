@@ -5,7 +5,7 @@
     <h4 class="display-7" style="text-align: center;">Enter Details or Click View All</h4>
     <hr class="my-4">
     <div class="card">
-      <div class="card-header">
+      <div class="card-header py-4">
         <div class="container">
           <form @submit.prevent="handleSearch">
           <div class="row">
@@ -15,18 +15,18 @@
               <div class="col-4 my-auto">
                 <label class="mx-3">Zip Code</label><input type="text" class="form-control" v-model="zip" pattern="^\d{5,5}" title="Enter a 5 Digit Zipcode" required>
               </div>
-              <div class="col my-auto">
+              <div class="col d-flex align-items-end">
                 <button class="btn btn-secondary">Search</button>
               </div>
-              <div class="col my-auto">
+              <div class="col d-flex align-items-end justify-content-end">
                 <button @click.prevent="handleViewAll" class="btn btn-secondary">View All Orders</button>
               </div>
           </div>
           </form>
         </div>
       </div>
-      <div class="card-body">
-        <div class="stickyHead" v-if="orders.length>0">
+      <div class="card-body" v-if="orders.length>0">
+        <div class="stickyHead">
           <table class="table table-hover">
             <thead>
               <tr>
@@ -193,7 +193,7 @@
                 <div class="modal-footer">
                   <div class="row">
                     <div class="col">
-                      <button type="button" class="btn btn-outline-danger btn mx-2" data-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn-outline-danger btn mx-2" data-dismiss="modal" @click="newClaim=false">Cancel</button>
                       <button type="button" class="btn btn-secondary btn mx-2" @click="handleSaveClaims" data-dismiss="modal">Save Claim Details</button>
                     </div>
                   </div>

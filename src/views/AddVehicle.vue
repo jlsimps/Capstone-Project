@@ -4,7 +4,7 @@
         <hr class="my-4">
         <div class="card my-5">
             <div class="card-header">
-                <h5>Select Vehicle Owner</h5>
+                <h4>Select Vehicle Owner</h4>
             </div>
             <div class="card-body">
                 <div class="search row d-flex">
@@ -31,7 +31,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="customer in customers" :key="customer.customer_id">
-                                <td><button class="btn btn-secondary" @click="handleCustomer(customer.customer_id, customer.customer_first_name, customer.customer_last_name)">Select</button></td>
+                                <td><button class="btn btn-secondary" @click="handleCustomer(customer.customer_id, customer.customer_first_name, customer.customer_last_name, customer.customer_phone)">Select</button></td>
                                 <td>{{ customer.customer_last_name }}</td>
                                 <td>{{ customer.customer_first_name }}</td>
                                 <td>{{ customer.customer_zipcode }}</td>
@@ -43,88 +43,96 @@
             </div>
         </div>
         <div class="card mt-5" v-if="customerSelected">
-            <div class="card-header" id="details">
-                <h5>Enter Vehicle Details</h5>
+          <form @submit="handleSubmit">
+            <div class="card-header py-3" id="details">
+                <h4>Enter Vehicle Details</h4>
             </div>
-            <div class="card body mb-0" style="border:0px">
-                <div class="form-group">
-                    <form @submit="handleSubmit">
-                        <div class="form-group row py-3 px-5">
-                            <label class="col-sm-2 col-form-label">Owner</label>
-                            <div class="col-sm-10 mt-auto">
-                                <input type="text" class="form-control pe-5" v-model="fullName" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group row py-3 px-5">
-                            <label class="col-sm-2 col-form-label">Vehicle Year</label>
-                            <div class="col-sm-10 mt-auto">
-                                <input type="number" class="form-control pe-5" v-model="vehicleDetails.vehicle_year">
-                            </div>
-                        </div>
-                        <div class="form-group row pb-3 px-5">
-                            <label class="col-sm-2 col-form-label">Select Make</label>
-                            <div class="col-sm-10 my-auto">
-                                <select class="form-control" v-model="vehicleMake" @change="makeSelected(vehicleMake)" required>
-                                    <option disabled value="">Choose. . .</option>
-                                    <option v-for="make in makes" v-bind:key="make.make_id" v-bind:value="make.make_id">
-                                        {{ make.make_name }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row pb-3 px-5">
-                            <label class="col-sm-2 col-form-label">Select Model</label>
-                            <div class="col-sm-10 my-auto">
-                                <select class="form-control" v-model="vehicleDetails.model_id" required>
-                                    <option disabled value="">Choose. . .</option>
-                                    <option v-for="model in models" v-bind:key="model.model_id" v-bind:value="model.model_id">
-                                        {{ model.model_name }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row pb-3 px-5">
-                            <label class="col-sm-2 col-form-label">Select Color</label>
-                            <div class="col-sm-10 my-auto">
-                                <select class="form-control" v-model="vehicleDetails.color_id" required>
-                                    <option disabled value="">Choose. . .</option>
-                                    <option v-for="color in colors" v-bind:key="color.color_id" v-bind:value="color.color_id">
-                                        {{ color.color_name }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row pb-3 px-5">
-                            <label class="col-sm-2 col-form-label">Vehicle VIN</label>
-                            <div class="col-sm-10 mt-auto">
-                                <input type="text" class="form-control pe-5" v-model="vehicleDetails.vehicle_vin_number">
-                            </div>
-                        </div>
-                        <div class="form-group row pb-3 px-5">
-                            <label class="col-sm-2 col-form-label">License Plate #</label>
-                            <div class="col-sm-10 mt-auto">
-                                <input type="text" class="form-control pe-5" v-model="vehicleDetails.vehicle_license_plate_num">
-                            </div>
-                        </div>
-                        <div class="form-group row pb-3 px-5">
-                            <label class="col-sm-2 col-form-label">License Plate State</label>
-                            <div class="col-sm-10 my-auto">
-                                <select class="form-control" v-model="vehicleDetails.vehicle_license_plate_state_id" required>
-                                    <option disabled value="">Choose. . .</option>
-                                    <option v-for="state in states" v-bind:key="state.vehicle_license_plate_state_id" v-bind:value="state.vehicle_license_plate_state_id">
-                                        {{ state.vehicle_license_plate_state_name }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="card-header">
-                        <div class="row justify-content-center">
-                            <button class="btn btn-secondary my-3" style="width:400px;">Save Vehicle</button>
-                        </div>
-                    </div>
-                    </form>
+            <div class="card-body px-5">
+              <div class="row">
+                <div class="col-md-3">
+                  <h5>Owner Information</h5>
                 </div>
+                <div class="col-md-9">
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="customerName" class="form-label">Name</label>
+                      <input id="customerName" type="text" class="form-control" v-model="fullName" disabled>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="customerPhone" class="form-label">Phone Number</label>
+                      <input id="customerPhone" type="text" class="form-control" v-model="customerPhone" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="my-4" />
+              <div class="row">
+                <div class="col-md-3">
+                  <h5>Vehicle Information</h5>
+                  <p class="text-muted">All fields required</p>
+                </div>
+                <div class="col-md-9">
+                  <div class="row mb-4">
+                    <div class="col-md-6">
+                      <label for="vin" class="form-label">VIN</label>
+                      <input type="text" id="vin" class="form-control" v-model="vehicleDetails.vehicle_vin_number" required>
+                    </div>
+                    <div class="col-md-3">
+                      <label for="year" class="form-label">Year</label>
+                      <input type="text" id="year" class="form-control" v-model="vehicleDetails.vehicle_year" required>
+                    </div>
+                    <div class="col-md-3">
+                      <label for="color" class="form-label">Color</label>
+                      <select id="color" class="form-select" v-model="vehicleDetails.color_id" required>
+                          <option v-for="color in colors" v-bind:key="color.color_id" v-bind:value="color.color_id">
+                              {{ color.color_name }}
+                          </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mb-4">
+                    <div class="col-md-6">
+                      <label for="make" class="form-label">Make</label>
+                      <select id="make" class="form-select" v-model="vehicleMake" @change="makeSelected(vehicleMake)" required>
+                          <option disabled value="">Choose. . .</option>
+                          <option v-for="make in makes" v-bind:key="make.make_id" v-bind:value="make.make_id">
+                              {{ make.make_name }}
+                          </option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="model" class="form-label">Model</label>
+                      <select id="model" class="form-select" v-model="vehicleDetails.model_id" required>
+                          <option disabled value="">Choose Make. . .</option>
+                          <option v-for="model in models" v-bind:key="model.model_id" v-bind:value="model.model_id">
+                              {{ model.model_name }}
+                          </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mb-4">
+                    <div class="col-md-3">
+                      <label for="lpState" class="form-label">License Plate State</label>
+                      <select id="lpState" class="form-select" v-model="vehicleDetails.vehicle_license_plate_state_id" required>
+                            <option v-for="state in states" v-bind:key="state.vehicle_license_plate_state_id" v-bind:value="state.vehicle_license_plate_state_id">
+                                {{ state.vehicle_license_plate_state_name }}
+                            </option>
+                      </select>
+                    </div>
+                    <div class="col-md-3">
+                      <label for="lpNum" class="form-label">License Plate Number</label>
+                      <input id="lpNum" type="text" class="form-control pe-5" v-model="vehicleDetails.vehicle_license_plate_num" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+            <div class="card-footer">
+              <div class="row justify-content-center">
+                  <button class="btn btn-secondary my-3" style="width:200px;">Save Vehicle</button>
+              </div>
+            </div>
+          </form>
         </div>
     </div>
 </template>
@@ -138,6 +146,7 @@ export default {
       customerSelected: false,
       customerId: '',
       fullName: '',
+      customerPhone: '',
       phoneSearch: '',
       makes: '',
       models: '',
@@ -180,9 +189,10 @@ export default {
     })
   },
   methods: {
-    handleCustomer (customerId, customerFirstName, customerLastName) {
+    handleCustomer (customerId, customerFirstName, customerLastName, customerPhone) {
       this.vehicleDetails.customer_id = customerId
       this.fullName = customerFirstName + ' ' + customerLastName
+      this.customerPhone = customerPhone
       this.customerSelected = true
       this.$nextTick(() => {
         const elmt = document.getElementById('details')
@@ -258,6 +268,9 @@ table thead th {
   border-top: none !important;
   border-bottom: none !important;
   box-shadow: inset 0 -2px 0 #000000;
+}
+label {
+  font-weight: 500;
 }
 
 </style>

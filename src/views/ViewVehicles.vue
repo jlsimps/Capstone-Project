@@ -5,7 +5,7 @@
     <h4 class="display-7" style="text-align: center;">Enter Vehicle VIN or Customer Phone Number</h4>
     <hr class="my-4">
     <div class="card">
-      <div class="card-header">
+      <div class="card-header py-4">
         <div class="container">
           <div class="row d-flex">
               <div class="col-4 my-auto">
@@ -23,34 +23,36 @@
         </div>
       </div>
       <div class="card-body">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Owner</th>
-              <th>VIN</th>
-              <th>Year</th>
-              <th>Make</th>
-              <th>Model</th>
-              <th>View Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="vehicle in vehicles" :key="vehicle.vehicle_id">
-              <td>{{ vehicle.owner_name }}</td>
-              <td>{{ vehicle.vehicle_vin_number }}</td>
-              <td>{{ vehicle.vehicle_year }}</td>
-              <td>{{ vehicle.make_name }}</td>
-              <td>{{ vehicle.model_name }}</td>
-              <td>
-                <button class="btn btn-secondary" @click="showVehicleDetails(vehicle.vehicle_id)">View/Edit Details</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="stickyHead">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Owner</th>
+                <th>VIN</th>
+                <th>Year</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>View Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="vehicle in vehicles" :key="vehicle.vehicle_id">
+                <td>{{ vehicle.owner_name }}</td>
+                <td>{{ vehicle.vehicle_vin_number }}</td>
+                <td>{{ vehicle.vehicle_year }}</td>
+                <td>{{ vehicle.make_name }}</td>
+                <td>{{ vehicle.model_name }}</td>
+                <td>
+                  <button class="btn btn-secondary" @click="showVehicleDetails(vehicle.vehicle_id)">View/Edit Details</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <div id="overlay" v-if="showDetails">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-md">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">View/Edit Vehicle Details</h5>
@@ -58,10 +60,74 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body p-4">
-                <div class="form-group">
-                    <form @submit.prevent="handleEdit">
-                        <div class="row">
+              <div class="form-group">
+                  <form @submit.prevent="handleEdit">
+                    <div class="modal-body p-4">
+                      <div class="row d-flex justify-content-center">
+                          <div class="row mb-3">
+                            <label for="ownerName" class="col-sm-3 col-form-label d-flex justify-content-end">Owner:</label>
+                            <div class="col-sm-8">
+                              <input id="ownerName" type="text" class="form-control" v-model="vehicleDetails.owner_name" disabled>
+                            </div>
+                          </div>
+                          <div class="row mb-3">
+                            <label for="vehicle" class="col-sm-3 col-form-label d-flex justify-content-end">Vehicle:</label>
+                            <div class="col-sm-8">
+                              <input id="vehicle" type="text" class="form-control" v-model="vehicleType" disabled>
+                            </div>
+                          </div>
+                      </div>
+                      <hr class="my-4" />
+                      <div class="row d-flex justify-content-center">
+                        <div class="row mb-3">
+                          <label for="vin" class="col-sm-3 col-form-label d-flex justify-content-end">VIN:</label>
+                          <div class="col-sm-8">
+                            <input id="vin" type="text" class="form-control" v-model="vehicleDetails.vehicle_vin_number" required>
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="year" class="col-sm-3 col-form-label d-flex justify-content-end">Year:</label>
+                          <div class="col-sm-4">
+                              <input id="year" type="text" class="form-control" v-model="vehicleDetails.vehicle_year" required>
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="color" class="col-sm-3 col-form-label d-flex justify-content-end">Color:</label>
+                          <div class="col-sm-4">
+                              <select id="color" class="form-select" v-model="vehicleDetails.color_id" required>
+                                <option v-for="color in colors" v-bind:key="color.color_id" v-bind:value="color.color_id">
+                                    {{ color.color_name }}
+                                </option>
+                              </select>
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="state" class="col-sm-3 col-form-label d-flex justify-content-end">State:</label>
+                          <div class="col-sm-4">
+                              <select id="state" class="form-select" v-model="vehicleDetails.vehicle_license_plate_state_id" required>
+                                <option disabled value="">Choose. . .</option>
+                                <option v-for="state in states" v-bind:key="state.vehicle_license_plate_state_id" v-bind:value="state.vehicle_license_plate_state_id">
+                                    {{ state.vehicle_license_plate_state_name }}
+                                </option>
+                              </select>
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="plate" class="col-sm-3 col-form-label d-flex justify-content-end">Plate #:</label>
+                          <div class="col-sm-6">
+                              <input type="text" class="form-control" v-model="vehicleDetails.vehicle_license_plate_num" required>
+                          </div>
+                        </div>
+                      </div>
+                          <!-- <div class="col-sm-4">
+                          <label for="year" class="form-label">Year:</label>
+                          <input id="year" type="text" class="form-control" v-model="vehicleDetails.vehicle_year">
+                        </div>
+                        <div class="col-sm-4">
+                          <label for="year" class="form-label">Year:</label>
+                          <input id="year" type="text" class="form-control" v-model="vehicleDetails.vehicle_year">
+                        </div> -->
+                        <!-- <div class="row">
                             <label class="detail-item col-3 my-auto">Owner:</label>
                             <div class="col my-auto pe-5">
                                 <input type="text" class="form-control" v-model="vehicleDetails.owner_name" disabled>
@@ -118,19 +184,13 @@
                                     </option>
                                 </select>
                             </div>
+                        </div> -->
                         </div>
-                        <div>
-                            <div class="row d-flex pt-3">
-                                <div class="col d-flex justify-content-end">
-                                <button @click="saveChanges" class="btn btn-secondary my-3" style="width:200px;">Save Changes</button>
-                                </div>
-                                <div class="col d-flex justify-content-start">
-                                <button @click="cancelChanges" class="btn btn-secondary my-3" style="width:200px;">Cancel</button>
-                                </div>
-                            </div>
+                        <div class="modal-footer">
+                          <button @click="cancelChanges" class="btn btn-outline-danger mr-auto">Cancel</button>
+                          <button @click="saveChanges" class="btn btn-secondary my-3">Save Changes</button>
                         </div>
-                    </form>
-                </div>
+                  </form>
             </div>
         </div>
       </div>
@@ -149,6 +209,7 @@ export default {
       phoneSearch: '',
       showDetails: false,
       vehicleDetails: {},
+      vehicleType: '',
       colors: '',
       states: ''
     }
@@ -207,6 +268,7 @@ export default {
       const apiURL = `http://localhost:3000/getVehicleById/${vehicleId}`
       axios.get(apiURL).then((res) => {
         this.vehicleDetails = res.data[0]
+        this.vehicleType = res.data[0].make_name + ' ' + res.data[0].model_name
       }).catch(error => {
         console.log(error)
       })
@@ -238,7 +300,26 @@ export default {
   background: rgba(0, 0, 0, 0.6);
 }
 
-.detail-item {
+label {
     font-weight: 500;
+}
+.stickyHead {
+  overflow: auto;
+  max-height: 375px;
+}
+.stickyHead thead th {
+  position: sticky;
+  top: 0;
+  /* z-index: 1; */
+  background: #ffffff;
+}
+.stickyHead table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.stickyHead thead th {
+  border-top: none !important;
+  border-bottom: none !important;
+  box-shadow: inset 0 -2px 0 #000000;
 }
 </style>
