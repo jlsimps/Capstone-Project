@@ -2,7 +2,7 @@
   <div class="home">
     <h1 class="display-5" style="text-align: center;">Check Warranty Status</h1>
     <hr class="my-4">
-    <h4 class="display-7" style="text-align: center;">Enter Details or Click View All</h4>
+    <h4 class="display-7" style="text-align: center;">Enter Order Details or Click View All</h4>
     <hr class="my-4">
     <div class="card">
       <div class="card-header py-4">
@@ -30,26 +30,25 @@
           <table class="table table-hover">
             <thead>
               <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Order Date</th>
+                <th>Customer Name</th>
                 <th>Zip Code</th>
                 <th>Vehicle Year</th>
                 <th>Vehicle Model</th>
-                <th>Pickup Date</th>
-                <th>Actions</th>
+                <th>Vehicle Color</th>
+                <th class="text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="order in orders" :key="order.work_order_id">
-                <td>{{ order.customer_first_name }}</td>
-                <td>{{ order.customer_last_name }}</td>
+                <td>{{ formatDate(order.pickup_date) }}</td>
+                <td>{{ order.customer_last_name + ', ' + order.customer_first_name }}</td>
                 <td>{{ order.customer_zipcode }}</td>
                 <td>{{ order.vehicle_year }}</td>
                 <td>{{ order.model_name }}</td>
-                <td>{{ formatDate(order.pickup_date) }}</td>
-                <!-- <td><button class="btn btn-secondary" @click="showOrderInfo(order.work_order_id, order.current_mileage)">View Details</button></td> -->
-                <td>
-                  <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="Order Details" src="../../src/assets/view2.png" @click="showOrderInfo(order.work_order_id, order.current_mileage)" style="width:25px;height:auto" /></a>
+                <td>{{ order.color_name }}</td>
+                <td class="text-center">
+                  <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="Order Details" src="../../src/assets/view2.png" @click="showOrderInfo(order.work_order_id, order.current_mileage, order.model_name, order.vehicle_vin_number, order.vehicle_year)" style="width:25px;height:auto" /></a>
                   <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="Claims Details" src="../../src/assets/claims.png" @click="editClaimInfo(order.work_order_id)" data-toggle="modal" data-target="#claimsModal" style="width:25px;height:25px" /></a>
                 </td>
               </tr>
@@ -68,14 +67,23 @@
               </button>
             </div>
             <div class="modal-body p-4">
-              <div class="row my-4">
+              <div class="row mt-2 mb-1 text-center">
                 <div class="col mx-auto">
                   <strong>Completion Date:</strong> {{ formatDate(orderDate) }}
                 </div>
                 <div class="col mx-auto">
-                  <strong>Mileage at Time of Service:</strong> {{ orderMileage }}
+                  <strong>Vehicle:</strong> {{ vehicle }}
                 </div>
               </div>
+              <div class="row text-center">
+                <div class="col mx-auto">
+                  <strong>Mileage at Time of Service:</strong> {{ orderMileage }}
+                </div>
+                <div class="col mx-auto">
+                  <strong>VIN:</strong> {{ vin }}
+                </div>
+              </div>
+              <hr class="my-3" />
               <div class="row">
                 <table class="table text-center mt-4">
                   <thead>
@@ -89,11 +97,14 @@
                   </thead>
                   <tbody>
                     <tr v-for="detail in orderDetails" :key="detail.work_order_id">
-                      <td>{{ detail.service_type }}</td>
-                      <td>{{ detail.warranty_name }}</td>
-                      <td v-if="today<detail.work_order_expiration_date" style="color:green">{{ formatDate(detail.work_order_expiration_date) }}</td>
+                      <td v-if="today>detail.work_order_expiration_date" style="color:red">{{ detail.service_type }}</td>
+                      <td v-else>{{ detail.service_type }}</td>
+                      <td v-if="today>detail.work_order_expiration_date" style="color:red">{{ detail.warranty_name }}</td>
+                      <td v-else>{{ detail.warranty_name }}</td>
                       <td v-if="today>detail.work_order_expiration_date" style="color:red">{{ formatDate(detail.work_order_expiration_date) }}</td>
-                      <td>{{ detail.work_order_expiration_mileage }}</td>
+                      <td v-if="today<detail.work_order_expiration_date" style="color:green">{{ formatDate(detail.work_order_expiration_date) }}</td>
+                      <td v-if="today>detail.work_order_expiration_date" style="color:red">{{ detail.work_order_expiration_mileage }}</td>
+                      <td v-else>{{ detail.work_order_expiration_mileage }}</td>
                       <td>{{ detail.NumberOfClaims }}</td>
                     </tr>
                   </tbody>
@@ -118,21 +129,22 @@
                       <thead>
                         <tr class="d-flex">
                           <th class="col-3">Service</th>
-                          <th class="col-3">Claim Date</th>
-                          <th class="col-2">Cost of Claim Work</th>
+                          <th class="col-2">Claim Date</th>
+                          <th class="col-3">Cost of Claim Work</th>
                           <th class="col-3">Notes</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr class="d-flex" v-for="(detail, index) in editClaimDetails.claims" :key="detail.warranty_claim_id">
                           <td class="col-3">{{ detail.service_type }}</td>
-                          <td class="col-3">{{ formatDate(detail.warranty_claim_date) }}</td>
-                          <td class="col-2">${{ detail.warranty_claim_amount }}</td>
+                          <td class="col-2">{{ formatDate(detail.warranty_claim_date) }}</td>
+                          <td class="col-3">${{ detail.warranty_claim_amount }}</td>
                           <td class="col-3">{{ detail.warranty_claim_notes }}</td>
                           <td class="col-1">
-                            <button v-b-tooltip.hover title="Remove Claim" type="button" class="close" @click="handleRemoveClaim(index, detail.warranty_claim_id, detail.warranty_claim_date, detail.warranty_claim_amount)">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <a href="" @click.prevent><img v-b-tooltip.hover title="Remove Claim" src="../../src/assets/delete.png" @click="handleRemoveClaim(index, detail.warranty_claim_id, detail.warranty_claim_date, detail.warranty_claim_amount)" style="width:25px;height:25px" type="button" /></a>
+                            <!-- <button @click="handleRemoveClaim(index, detail.warranty_claim_id, detail.warranty_claim_date, detail.warranty_claim_amount)">
+                              <img v-b-tooltip.hover title="Remove Claim" src="../../src/assets/delete.png" style="width:25px;height:auto" />
+                            </button> -->
                           </td>
                         </tr>
                       </tbody>
@@ -226,6 +238,8 @@ export default {
       claimDetails: [],
       orderDate: '',
       orderMileage: '',
+      vin: '',
+      vehicle: '',
       showDetails: false,
       today: '',
       expired: true,
@@ -259,13 +273,15 @@ export default {
       this.lName = ''
       this.zip = ''
     },
-    showOrderInfo (orderId, currentMileage) {
+    showOrderInfo (orderId, currentMileage, model, vin, year) {
       const apiURL = `http://localhost:3000/getOrderDetails/${orderId}`
       axios.get(apiURL).then((res) => {
         this.orderDetails = res.data
         console.log(this.orderDetails)
         this.orderDate = this.orderDetails[0].pickup_date
         this.orderMileage = currentMileage
+        this.vehicle = year + ' ' + model
+        this.vin = vin
         console.log(this.expired)
       }).catch(error => {
         console.log(error)
@@ -376,5 +392,8 @@ export default {
   border-top: none !important;
   border-bottom: none !important;
   box-shadow: inset 0 -2px 0 #000000;
+}
+label {
+  font-weight: 500;
 }
 </style>

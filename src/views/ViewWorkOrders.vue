@@ -34,7 +34,7 @@
                 <th>Vehicle Year</th>
                 <th>Vehicle Model</th>
                 <th>Service Date</th>
-                <th>Actions</th>
+                <th class="text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -46,8 +46,8 @@
                 <td>{{ order.model_name }}</td>
                 <td>{{ formatDate(order.pickup_date) }}</td>
                 <!-- <td><button class="btn btn-secondary" @click="showOrderInfo(order.work_order_id, order.current_mileage)">View/Edit Details</button></td> -->
-                <td>
-                    <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="View Details" src="../../src/assets/view2.png" @click="showOrderInfo(order.work_order_id, order.current_mileage)" style="width:25px;height:25px" /></a>
+                <td class="text-center">
+                    <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="View Details" src="../../src/assets/view2.png" @click="showOrderInfo(order.work_order_id, order.current_mileage.toLocaleString('en-US'))" style="width:25px;height:25px" /></a>
                     <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="Edit Details" src="../../src/assets/edit2.png" @click="editOrderInfo(order.work_order_id, order.current_mileage)" style="width:25px;height:25px" /></a>
                     <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="Delete Order" src="../../src/assets/delete.png" @click="deleteOrder(order.work_order_id)" style="width:25px;height:25px" type="button" data-toggle="modal" data-target="#deleteOrderModal" /></a>
                 </td>
@@ -72,7 +72,7 @@
                   <strong>Pickup Date:</strong> {{ formatDate(orderDate) }}
                 </div>
                 <div class="col mx-auto">
-                  <strong>Mileage at Time of Service:</strong> {{ orderMileage }}
+                  <strong>Mileage at Time of Service:</strong> {{ orderMileage.toLocaleString('en-US') }}
                 </div>
               </div>
               <div class="row">
@@ -91,7 +91,7 @@
                       <td class="text-center">{{ detail.warranty_name }}</td>
                       <td v-if="today<detail.work_order_expiration_date" style="color:green">{{ formatDate(detail.work_order_expiration_date) }}</td>
                       <td v-if="today>detail.work_order_expiration_date" style="color:red">{{ formatDate(detail.work_order_expiration_date) }}</td>
-                      <td>{{ detail.work_order_expiration_mileage }}</td>
+                      <td>{{ detail.work_order_expiration_mileage.toLocaleString('en-US') }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -278,7 +278,7 @@ export default {
       axios.get(apiURL).then((res) => {
         this.orderDetails = res.data
         this.orderDate = this.orderDetails.pickup_date
-        this.orderMileage = currentMileage
+        this.orderMileage = currentMileage.toLocaleString('en-US')
         console.log(this.expired)
       }).catch(error => {
         console.log(error)

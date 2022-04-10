@@ -31,7 +31,7 @@
                 <th>First Name</th>
                 <th>Zip Code</th>
                 <th>Phone Number</th>
-                <th>View Details</th>
+                <th class="text-center">Details</th>
               </tr>
             </thead>
             <tbody>
@@ -40,9 +40,9 @@
                 <td>{{ customer.customer_first_name }}</td>
                 <td>{{ customer.customer_zipcode }}</td>
                 <td>{{ customer.customer_phone }}</td>
-                <td>
+                <td class="text-center">
                   <router-link :to="{name: 'EditCustomer', params: { id: customer.customer_id }}">
-                    <img src="../../src/assets/edit2.png" style="width:25px;height:25px" />
+                    <img src="../../src/assets/edit2.png" style="width:25px;height:25px" v-b-tooltip.hover title="View/Edit Details" />
                   </router-link>
                 </td>
               </tr>

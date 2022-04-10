@@ -24,26 +24,29 @@
       </div>
       <div class="card-body">
         <div class="stickyHead">
-          <table class="table">
+          <table class="table table-hover">
             <thead>
               <tr>
                 <th>Owner</th>
-                <th>VIN</th>
                 <th>Year</th>
                 <th>Make</th>
                 <th>Model</th>
-                <th>View Details</th>
+                <th>Color</th>
+                <th>VIN</th>
+                <th class="text-center">View Details</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="vehicle in vehicles" :key="vehicle.vehicle_id">
                 <td>{{ vehicle.owner_name }}</td>
-                <td>{{ vehicle.vehicle_vin_number }}</td>
                 <td>{{ vehicle.vehicle_year }}</td>
                 <td>{{ vehicle.make_name }}</td>
                 <td>{{ vehicle.model_name }}</td>
-                <td>
-                  <button class="btn btn-secondary" @click="showVehicleDetails(vehicle.vehicle_id)">View/Edit Details</button>
+                <td>{{ vehicle.color_name }}</td>
+                <td>{{ vehicle.vehicle_vin_number }}</td>
+                <td class="text-center">
+                  <a href="" @click.prevent class="mx-1"><img v-b-tooltip.hover title="View/Edit Details" src="../../src/assets/edit2.png" @click="showVehicleDetails(vehicle.vehicle_id)" style="width:25px;height:auto" /></a>
+                  <!-- <button class="btn btn-secondary" @click="showVehicleDetails(vehicle.vehicle_id)">View/Edit Details</button> -->
                 </td>
               </tr>
             </tbody>
@@ -305,7 +308,7 @@ label {
 }
 .stickyHead {
   overflow: auto;
-  max-height: 375px;
+  max-height: 400px;
 }
 .stickyHead thead th {
   position: sticky;
