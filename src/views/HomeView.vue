@@ -77,7 +77,7 @@
               </div>
               <div class="row text-center">
                 <div class="col mx-auto">
-                  <strong>Mileage at Time of Service:</strong> {{ orderMileage }}
+                  <strong>Mileage at Time of Service:</strong> {{ orderMileage.toLocaleString('en-US') }}
                 </div>
                 <div class="col mx-auto">
                   <strong>VIN:</strong> {{ vin }}
@@ -103,8 +103,8 @@
                       <td v-else>{{ detail.warranty_name }}</td>
                       <td v-if="today>detail.work_order_expiration_date" style="color:red">{{ formatDate(detail.work_order_expiration_date) }}</td>
                       <td v-if="today<detail.work_order_expiration_date" style="color:green">{{ formatDate(detail.work_order_expiration_date) }}</td>
-                      <td v-if="today>detail.work_order_expiration_date" style="color:red">{{ detail.work_order_expiration_mileage }}</td>
-                      <td v-else>{{ detail.work_order_expiration_mileage }}</td>
+                      <td v-if="today>detail.work_order_expiration_date" style="color:red">{{ detail.work_order_expiration_mileage.toLocaleString('en-US') }}</td>
+                      <td v-else>{{ detail.work_order_expiration_mileage.toLocaleString('en-US') }}</td>
                       <td>{{ detail.NumberOfClaims }}</td>
                     </tr>
                   </tbody>
