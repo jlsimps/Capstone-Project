@@ -56,6 +56,11 @@ const routes = [
     path: '/ManageVehicles',
     name: 'ManageVehicles',
     component: () => import('../views/ManageVehicles.vue')
+  },
+  {
+    path: '/ClaimReport',
+    name: 'ClaimReport',
+    component: () => import('../views/ClaimReport.vue')
   }
 ]
 

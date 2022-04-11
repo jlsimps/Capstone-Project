@@ -138,7 +138,7 @@
                         <tr class="d-flex" v-for="(detail, index) in editClaimDetails.claims" :key="detail.warranty_claim_id">
                           <td class="col-3">{{ detail.service_type }}</td>
                           <td class="col-2">{{ formatDate(detail.warranty_claim_date) }}</td>
-                          <td class="col-3">${{ detail.warranty_claim_amount }}</td>
+                          <td class="col-3 text-center">${{ detail.warranty_claim_amount }}</td>
                           <td class="col-3">{{ detail.warranty_claim_notes }}</td>
                           <td class="col-1">
                             <a href="" @click.prevent><img v-b-tooltip.hover title="Remove Claim" src="../../src/assets/delete.png" @click="handleRemoveClaim(index, detail.warranty_claim_id, detail.warranty_claim_date, detail.warranty_claim_amount)" style="width:25px;height:25px" type="button" /></a>

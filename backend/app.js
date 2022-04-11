@@ -131,6 +131,13 @@ app.put('/updateClaims', (req, res) => {
     res.send('success')
 })
 
+app.get('/getClaimReport', (req, res) => {
+    connection.query(`SELECT * FROM claim_report WHERE number_of_claims > 0 ORDER BY cost_of_claims DESC`, function(err, result) {
+        if (err) throw err;
+        res.json(result)
+    })
+})
+
 app.get('/getAllOrderDetails', (req, res) => {
     connection.query('SELECT * FROM order_details', function(err, result) {
         if (err) throw err

@@ -59,6 +59,8 @@
                 <router-link class="dropdown-item" to="/ManageServices">Manage Services Offered</router-link>
                 <div class="dropdown-divider"></div>
                 <router-link class="dropdown-item" to="/ManageVehicles">Manage Vehicles Serviced</router-link>
+                <div class="dropdown-divider"></div>
+                <router-link class="dropdown-item" to="/ClaimReport">Warranty Claims Report</router-link>
               </div>
             </li>
 
