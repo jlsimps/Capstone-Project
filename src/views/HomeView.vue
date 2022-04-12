@@ -129,15 +129,15 @@
                       <thead>
                         <tr class="d-flex">
                           <th class="col-3">Service</th>
-                          <th class="col-2">Claim Date</th>
-                          <th class="col-3">Cost of Claim Work</th>
+                          <th class="col-2 text-center">Claim Date</th>
+                          <th class="col-3 text-center">Cost of Claim Work</th>
                           <th class="col-3">Notes</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr class="d-flex" v-for="(detail, index) in editClaimDetails.claims" :key="detail.warranty_claim_id">
                           <td class="col-3">{{ detail.service_type }}</td>
-                          <td class="col-2">{{ formatDate(detail.warranty_claim_date) }}</td>
+                          <td class="col-2 text-center">{{ formatDate(detail.warranty_claim_date) }}</td>
                           <td class="col-3 text-center">${{ detail.warranty_claim_amount }}</td>
                           <td class="col-3">{{ detail.warranty_claim_notes }}</td>
                           <td class="col-1">

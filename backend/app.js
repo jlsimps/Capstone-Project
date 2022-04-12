@@ -96,7 +96,14 @@ app.get('/getOrderDetails/:orderid', (req, res) => {
 })
 
 app.get('/getClaimDetails/:orderid', (req, res) => {
-    connection.query(`SELECT * FROM claim_details WHERE work_order_id = ${req.params.orderid} AND work_order_line_status_id = 1 AND IsDelete = 0`, function(err, result) {
+    connection.query(`SELECT * FROM claim_details WHERE work_order_id = ${req.params.orderid} AND work_order_status_id = 1 AND work_order_line_status_id = 1 AND IsDelete = 0`, function(err, result) {
+        if (err) throw err;
+        res.json(result)
+    })
+})
+
+app.get('/getClaimsByType/:type', (req, res) => {
+    connection.query(`SELECT * FROM claim_details WHERE service_type = '${req.params.type}' AND work_order_status_id = 1 AND work_order_line_status_id = 1 AND IsDelete = 0 ORDER BY warranty_claim_date DESC`, function(err, result) {
         if (err) throw err;
         res.json(result)
     })
@@ -137,6 +144,7 @@ app.get('/getClaimReport', (req, res) => {
         res.json(result)
     })
 })
+
 
 app.get('/getAllOrderDetails', (req, res) => {
     connection.query('SELECT * FROM order_details', function(err, result) {
