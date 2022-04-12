@@ -244,6 +244,13 @@ app.put('/removeModel/:id', (req, res) => {
     })
 })
 
+app.get('/getVins', (req, res) => {
+    connection.query(`SELECT vehicle_vin_number FROM vehicle`, function(err, result) {
+        if (err) throw err
+        res.json(result)
+    })
+})
+
 app.get('/getColors', (req, res) => {
     connection.query('SELECT * FROM color', function(err, result) {
         if (err) throw err;

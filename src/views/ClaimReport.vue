@@ -32,30 +32,30 @@
             </div>
             <hr class="my-5" />
             <div class="row">
-                <table class="table">
-                    <thead>
-                        <tr class="d-flex">
-                            <th class="col-6 px-4">Service</th>
-                            <th class="col-2 d-flex justify-content-center">Number of Claims</th>
-                            <th class="col-2 d-flex justify-content-center">Average Cost of Claims</th>
-                            <th class="col-2 d-flex justify-content-center">Total Cost of Claims</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="d-flex" v-for="claim in claims" v-bind:key="claim.service_type">
-                            <td class="col-6 px-4">{{ claim.service_type }}</td>
-                            <td class="col-2 d-flex justify-content-center">{{ claim.number_of_claims }}</td>
-                            <td class="col-2 d-flex justify-content-center">${{ claim.average_of_claims.toLocaleString('en-US') }}</td>
-                            <td class="col-2 d-flex justify-content-center">${{ claim.cost_of_claims.toLocaleString('en-US') }}</td>
-                        </tr>
-                        <tr class="totalRow d-flex">
-                            <td class="col-6 px-4">TOTAL</td>
-                            <td class="col-2 d-flex justify-content-center">{{ totalClaims }}</td>
-                            <td class="col-2 d-flex justify-content-center">${{ Math.round((totalCost / totalClaims)).toLocaleString('en-US') }}</td>
-                            <td class="col-2 d-flex justify-content-center">${{ totalCost.toLocaleString('en-US') }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <table class="table">
+                        <thead>
+                            <tr class="d-flex">
+                                <th class="col-6 px-4">Service</th>
+                                <th @click="sortClaim('number_of_claims')" class="col-2 d-flex justify-content-center">Number of Claims</th>
+                                <th @click="sortClaim('average_of_claims')" class="col-2 d-flex justify-content-center">Average Cost of Claims</th>
+                                <th @click="sortClaim('cost_of_claims')" class="col-2 d-flex justify-content-center">Total Cost of Claims</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="d-flex" v-for="claim in sortedClaims" v-bind:key="claim.service_type">
+                                <td class="col-6 px-4">{{ claim.service_type }}</td>
+                                <td class="col-2 d-flex justify-content-center">{{ claim.number_of_claims }}</td>
+                                <td class="col-2 d-flex justify-content-center">${{ claim.average_of_claims.toLocaleString('en-US') }}</td>
+                                <td class="col-2 d-flex justify-content-center">${{ claim.cost_of_claims.toLocaleString('en-US') }}</td>
+                            </tr>
+                            <tr class="totalRow d-flex">
+                                <td class="col-6 px-4">TOTAL</td>
+                                <td class="col-2 d-flex justify-content-center">{{ totalClaims }}</td>
+                                <td class="col-2 d-flex justify-content-center">${{ Math.round((totalCost / totalClaims)).toLocaleString('en-US') }}</td>
+                                <td class="col-2 d-flex justify-content-center">${{ totalCost.toLocaleString('en-US') }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
             </div>
         </div>
     </div>
@@ -76,7 +76,15 @@ export default {
       avgClaimData: [],
       showNumber: false,
       showCost: true,
-      showAvg: false
+      showAvg: false,
+      currentSort: 'total_of_claims'
+    }
+  },
+  computed: {
+    sortedClaims: function () {
+      return [...this.claims].sort((a, b) => {
+        return b[this.currentSort] - a[this.currentSort]
+      })
     }
   },
   created () {
@@ -119,6 +127,9 @@ export default {
         this.showCost = false
         this.showAvg = true
       }
+    },
+    sortClaim (detail) {
+      this.currentSort = detail
     }
   }
 }

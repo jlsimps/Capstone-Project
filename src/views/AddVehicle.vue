@@ -1,5 +1,10 @@
 <template>
     <div>
+      <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </symbol>
+      </svg>
         <h1 class="display-5" style="text-align: center;">Add New Vehicle</h1>
         <hr class="my-4">
         <div class="card my-5">
@@ -43,7 +48,7 @@
             </div>
         </div>
         <div class="card mt-5" v-if="customerSelected">
-          <form @submit="handleSubmit">
+          <form @submit.prevent="handleSubmit">
             <div class="card-header py-3" id="details">
                 <h4>Enter Vehicle Details</h4>
             </div>
@@ -76,6 +81,17 @@
                     <div class="col-md-6">
                       <label for="vin" class="form-label">VIN</label>
                       <input type="text" id="vin" class="form-control" v-model="vehicleDetails.vehicle_vin_number" required>
+                      <b-alert
+                        class="mb-0 mt-4"
+                        variant="danger"
+                        dismissible
+                        fade
+                        v-model="showSameVinAlert"
+                        @dismissed="showSameVinAlert=false"
+                      >
+                        <svg width="24" height="24"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                        The vin '{{ badVin }}' already exists in the system!
+                      </b-alert>
                     </div>
                     <div class="col-md-3">
                       <label for="year" class="form-label">Year</label>
@@ -161,7 +177,10 @@ export default {
         vehicle_vin_number: '',
         vehicle_license_plate_num: '',
         vehicle_year: ''
-      }
+      },
+      activeVins: [],
+      showSameVinAlert: false,
+      badVin: ''
     }
   },
   created () {
@@ -169,6 +188,7 @@ export default {
     const apiURL = 'http://localhost:3000/getMakes'
     const apiURL2 = 'http://localhost:3000/getColors'
     const apiURL3 = 'http://localhost:3000/getStates'
+    const apiURL4 = 'http://localhost:3000/getVins'
 
     axios.get(apiURL).then((res) => {
       this.makes = res.data
@@ -184,6 +204,14 @@ export default {
 
     axios.get(apiURL3).then((res) => {
       this.states = res.data
+    }).catch(error => {
+      console.log(error)
+    })
+
+    axios.get(apiURL4).then((res) => {
+      for (const vin of res.data) {
+        this.activeVins.push(vin.vehicle_vin_number)
+      }
     }).catch(error => {
       console.log(error)
     })
@@ -230,11 +258,16 @@ export default {
     handleSubmit () {
       const apiURL = 'http://localhost:3000/createVehicle'
 
-      axios.post(apiURL, this.vehicleDetails).then((res) => {
-        this.$router.push('/AddVehicle')
-      }).catch(error => {
-        console.log(error)
-      })
+      if (this.activeVins.includes(this.vehicleDetails.vehicle_vin_number)) {
+        this.badVin = this.vehicleDetails.vehicle_vin_number
+        this.showSameVinAlert = true
+      } else {
+        axios.post(apiURL, this.vehicleDetails).then((res) => {
+          location.reload()
+        }).catch(error => {
+          console.log(error)
+        })
+      }
     }
   }
 }

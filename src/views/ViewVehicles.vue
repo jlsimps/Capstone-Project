@@ -1,5 +1,10 @@
 <template>
   <div>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </symbol>
+    </svg>
     <h1 class="display-5" style="text-align: center;">View Vehicles</h1>
     <hr class="my-4">
     <h4 class="display-7" style="text-align: center;">Enter Vehicle VIN or Customer Phone Number</h4>
@@ -9,12 +14,16 @@
         <div class="container">
           <div class="row d-flex">
               <div class="col-4 my-auto">
-                <label class="mx-2">Vehicle VIN:</label><input type="text" v-model="vinSearch">
-                <button @click="handleVinSearch" class="btn btn-secondary mx-2">Search</button>
+                <form @submit.prevent="handleVinSearch">
+                <label class="mx-2">Vehicle VIN:</label><input type="text" v-model="vinSearch" required>
+                <button class="btn btn-secondary mx-2">Search</button>
+                </form>
               </div>
               <div class="col-5 my-auto">
-                <label class="mx-2">Customer Phone Number:</label><input type="text" v-model="phoneSearch">
-                <button @click="handlePhoneSearch" class="btn btn-secondary mx-2">Search</button>
+                <form @submit.prevent="handlePhoneSearch">
+                <label class="mx-2">Customer Phone Number:</label><input type="text" v-model="phoneSearch" placeholder="XXX-XXX-XXXX" pattern="^\d{3}-\d{3}-\d{4}$" title="XXX-XXX-XXXX" required>
+                <button class="btn btn-secondary mx-2">Search</button>
+                </form>
               </div>
               <div class="col my-auto d-flex justify-content-end px-5">
                 <button @click="handleViewAll" class="btn btn-secondary">View All</button>
@@ -86,6 +95,17 @@
                           <label for="vin" class="col-sm-3 col-form-label d-flex justify-content-end">VIN:</label>
                           <div class="col-sm-8">
                             <input id="vin" type="text" class="form-control" v-model="vehicleDetails.vehicle_vin_number" required>
+                            <b-alert
+                              class="mb-0 mt-2"
+                              variant="danger"
+                              dismissible
+                              fade
+                              v-model="showSameVinAlert"
+                              @dismissed="showSameVinAlert=false"
+                            >
+                              <svg width="24" height="24"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                              Vin already in system!
+                            </b-alert>
                           </div>
                         </div>
                         <div class="row mb-3">
@@ -122,72 +142,6 @@
                           </div>
                         </div>
                       </div>
-                          <!-- <div class="col-sm-4">
-                          <label for="year" class="form-label">Year:</label>
-                          <input id="year" type="text" class="form-control" v-model="vehicleDetails.vehicle_year">
-                        </div>
-                        <div class="col-sm-4">
-                          <label for="year" class="form-label">Year:</label>
-                          <input id="year" type="text" class="form-control" v-model="vehicleDetails.vehicle_year">
-                        </div> -->
-                        <!-- <div class="row">
-                            <label class="detail-item col-3 my-auto">Owner:</label>
-                            <div class="col my-auto pe-5">
-                                <input type="text" class="form-control" v-model="vehicleDetails.owner_name" disabled>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="detail-item col-3 my-auto">Make:</label>
-                            <div class="col my-auto pe-5">
-                                <input type="text" class="form-control" v-model="vehicleDetails.make_name" disabled>
-                            </div>
-                        </div>
-                        <div class="row pb-5">
-                            <label class="detail-item col-3 my-auto">Model:</label>
-                            <div class="col my-auto pe-5">
-                                <input type="text" class="form-control" v-model="vehicleDetails.model_name" disabled>
-                            </div>
-                        </div>
-                        <div class="row pb-2">
-                            <label class="detail-item col-3 my-auto">VIN:</label>
-                            <div class="col my-auto pe-5">
-                                <input type="text" class="form-control" v-model="vehicleDetails.vehicle_vin_number">
-                            </div>
-                        </div>
-                        <div class="row pb-2">
-                            <label class="detail-item col-3 my-auto">Year:</label>
-                            <div class="col my-auto pe-5">
-                                <input type="text" class="form-control" v-model="vehicleDetails.vehicle_year">
-                            </div>
-                        </div>
-                        <div class="row pb-2">
-                            <label class="detail-item col-3 my-auto">Color:</label>
-                            <div class="col my-auto pe-5">
-                                <select class="form-control" v-model="vehicleDetails.color_id" required>
-                                    <option disabled value="">Choose. . .</option>
-                                    <option v-for="color in colors" v-bind:key="color.color_id" v-bind:value="color.color_id">
-                                        {{ color.color_name }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row pb-2">
-                            <label class="detail-item col-3 my-auto">License Plate:</label>
-                            <div class="col my-auto pe-5">
-                                <input type="text" class="form-control" v-model="vehicleDetails.vehicle_license_plate_num">
-                            </div>
-                        </div>
-                        <div class="row pb-2">
-                            <label class="detail-item col-3 my-auto">Registered State:</label>
-                            <div class="col my-auto pe-5">
-                                <select class="form-control" v-model="vehicleDetails.vehicle_license_plate_state_id" required>
-                                    <option disabled value="">Choose. . .</option>
-                                    <option v-for="state in states" v-bind:key="state.vehicle_license_plate_state_id" v-bind:value="state.vehicle_license_plate_state_id">
-                                        {{ state.vehicle_license_plate_state_name }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div> -->
                         </div>
                         <div class="modal-footer">
                           <button @click="cancelChanges" class="btn btn-outline-danger mr-auto">Cancel</button>
@@ -214,12 +168,16 @@ export default {
       vehicleDetails: {},
       vehicleType: '',
       colors: '',
-      states: ''
+      states: '',
+      activeVins: [],
+      badVin: '',
+      showSameVinAlert: false
     }
   },
   created () {
     const apiURL = 'http://localhost:3000/getColors'
     const apiURL2 = 'http://localhost:3000/getStates'
+    const apiURL3 = 'http://localhost:3000/getVins'
 
     axios.get(apiURL).then((res) => {
       this.colors = res.data
@@ -229,6 +187,14 @@ export default {
 
     axios.get(apiURL2).then((res) => {
       this.states = res.data
+    }).catch(error => {
+      console.log(error)
+    })
+
+    axios.get(apiURL3).then((res) => {
+      for (const vin of res.data) {
+        this.activeVins.push(vin.vehicle_vin_number)
+      }
     }).catch(error => {
       console.log(error)
     })
@@ -284,11 +250,16 @@ export default {
       const apiURL = `http://localhost:3000/updateVehicle/${this.vehicleDetails.vehicle_id}`
       console.log(this.vehicleDetails)
 
-      axios.put(apiURL, this.vehicleDetails).then((res) => {
-        location.reload()
-      }).catch(error => {
-        console.log(error)
-      })
+      if (this.activeVins.includes(this.vehicleDetails.vehicle_vin_number)) {
+        this.badVin = this.vehicleDetails.vehicle_vin_number
+        this.showSameVinAlert = true
+      } else {
+        axios.put(apiURL, this.vehicleDetails).then((res) => {
+          location.reload()
+        }).catch(error => {
+          console.log(error)
+        })
+      }
     }
   }
 }
