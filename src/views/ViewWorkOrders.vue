@@ -113,11 +113,11 @@
               <div class="row mt-4 mb-5 text-center">
                 <div class="col mx-auto">
                   <label><strong>Date:</strong></label>
-                  <input class="form-control" type="date" v-model="this.editOrderDetails.pickup_date">
+                  <input class="form-control" type="date" v-model="this.editOrderDetails.pickup_date" disabled>
                 </div>
                 <div class="col mx-auto">
                   <label><strong>Mileage:</strong></label>
-                  <input class="form-control me-1" type="number" v-model="this.editOrderDetails.current_mileage">
+                  <input class="form-control me-1" type="number" v-model="this.editOrderDetails.current_mileage" disabled>
                 </div>
               </div>
               <hr class="mt-2 mb-0" />

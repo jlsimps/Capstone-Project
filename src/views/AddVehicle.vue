@@ -14,7 +14,7 @@
             <div class="card-body">
                 <div class="search row d-flex">
                     <div class="col-4 my-auto" style="border-style:rounded">
-                        <label class="mx-3">Phone Number</label><input type="text" v-model="phoneSearch">
+                        <label class="mx-3">Phone Number</label><input type="text" placeholder="XXX-XXX-XXXX" v-model="phoneSearch">
                     </div>
                     <div class="col-2 my-auto d-flex justify-content-start">
                         <button @click.prevent="handleSearch" class="btn btn-secondary">Search</button>
