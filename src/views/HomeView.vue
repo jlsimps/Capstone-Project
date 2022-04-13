@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1 class="display-5" style="text-align: center;">Check Warranty Status</h1>
+    <h1 class="display-5" style="text-align: center;">Check Warranty Status and Manage Warranty Claims</h1>
     <hr class="my-4">
     <h4 class="display-7" style="text-align: center;">Enter Order Details or Click View All</h4>
     <hr class="my-4">
