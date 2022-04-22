@@ -3,10 +3,10 @@ const mysql = require('mysql')
 const cors = require('cors')
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'cis4375',
-    database: 'ExpressDB'
+    host: 'host',
+    user: 'user',
+    password: 'password',
+    database: 'db'
 })
 
 connection.connect();
